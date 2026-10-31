@@ -14,7 +14,7 @@ Rex、Claude Code、Codex 的 Little Snitch 规则订阅。逐项维护必要目
 https://raw.githubusercontent.com/giraphant/snitcher/main/rules/baseline.lsrules
 ```
 
-允许 Claude 的 `api.anthropic.com`、Codex 的 `chatgpt.com`、Rex 的 Tailscale 协调及证书续期服务，均限 TCP 443。其他出站目标使用 Ask。个人远程主机、开发工具和学术网站按实际需要逐项确认，不做整类通配放行。
+允许 Claude 的 `api.anthropic.com`、Codex 的 `chatgpt.com`、Rex 的 Tailscale 协调及证书续期服务，均限 TCP 443。另包含 Rex Server 对 `api.anthropic.com` 和 `chatgpt.com` 的精确主机规则，以覆盖被 Little Snitch 归属为 Rex Server via claude/codex 的连接。它们按父应用匹配，也允许其他 Rex 子进程访问这两个主机，并不限定具体 helper。其他出站目标使用 Ask。个人远程主机、开发工具和学术网站按实际需要逐项确认，不做整类通配放行。
 
 ### 2. 非必要遥测拦截
 
@@ -47,6 +47,8 @@ https://raw.githubusercontent.com/giraphant/snitcher/main/rules/deny-derp.lsrule
 发布规则采用高优先级。精确主机规则与兜底 Ask 同优先级，精确主机更具体。现有的高优先级具体规则仍可能覆盖 Ask；本地临时例外也需要核对优先级。普通 Third Party Apps 全放行不应盖过这些高优先级规则。
 
 子进程、Surge、浏览器或后台代理可能被归为不同进程；父应用规则不保证覆盖所有委托请求。主机白名单也无法限制 URL、HTTP 方法、仓库或请求内容。共享平台的放行不等于只读权限。
+
+连接询问窗口表示该次连接正在等待决定，不表示已经连通，也不表示它有必要。若预期拒绝的目标仍触发 Ask，应检查订阅是否更新并启用、地址是否在名单内、进程归属及本地规则优先级；不要仅凭弹窗新增 Allow。
 
 这些是持续打磨的初始规则，不保证所有工作流免打扰。新目标先确认具体用途，必要时临时允许，验证之后再纳入长期规则。
 

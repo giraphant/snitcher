@@ -47,6 +47,28 @@
       "priority": "high"
     },
     {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "notes": "Codex ChatGPT 入口；覆盖 Little Snitch 归属为 Rex Server via codex 的连接。父应用规则也允许其他 Rex 子进程访问此精确主机；待客户端验证。",
+      "remote-hosts": "chatgpt.com",
+      "protocol": "tcp",
+      "ports": "443",
+      "priority": "high"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "notes": "Claude API；覆盖 Little Snitch 归属为 Rex Server via claude 的连接。父应用规则也允许其他 Rex 子进程访问此精确主机；待客户端验证。",
+      "remote-hosts": "api.anthropic.com",
+      "protocol": "tcp",
+      "ports": "443",
+      "priority": "high"
+    },
+    {
       "process": "identifier.AG92C3PT77/com.superlogical.rex",
       "action": "ask",
       "direction": "outgoing",
