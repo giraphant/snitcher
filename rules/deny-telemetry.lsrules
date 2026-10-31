@@ -1,0 +1,33 @@
+{
+  "name": "Snitcher — Block Optional Telemetry",
+  "description": "Optional diagnostic/analytics endpoints blocked only for the scoped processes. Disable this group to revert. Does not stop the application from retrying.",
+  "rules": [
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "notes": "Tailscale 连接诊断日志上传；按目的主机拒绝，保留应用其他功能",
+      "remote-hosts": "log.tailscale.com",
+      "priority": "high"
+    },
+    {
+      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "notes": "Claude 的 Datadog 日志接收端；按目的主机拒绝，保留应用其他功能",
+      "remote-hosts": "http-intake.logs.us5.datadoghq.com",
+      "priority": "high"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "notes": "Homebrew 使用统计；按目的主机拒绝，保留应用其他功能",
+      "remote-hosts": "analytics.brew.sh",
+      "priority": "high"
+    }
+  ]
+}

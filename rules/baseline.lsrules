@@ -1,0 +1,86 @@
+{
+  "name": "Snitcher — Core Allowlist + Ask",
+  "description": "Active rules for Rex, Claude Code and Codex only. Core HTTPS hosts allowed; other outbound targets ASK. High priority overrides ordinary broad allow rules. Existing HIGH-priority specific rules may still override ASK. Private hosts and task-dependent tools need separate reviewed exceptions. Proxy/browser attribution is not guaranteed.",
+  "rules": [
+    {
+      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "notes": "Claude 模型请求及同域服务；未进行防火墙功能验证",
+      "remote-hosts": "api.anthropic.com",
+      "protocol": "tcp",
+      "ports": "443",
+      "priority": "high"
+    },
+    {
+      "process": "identifier.2DC432GLL2/codex",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "notes": "Codex ChatGPT 服务入口；未进行防火墙功能验证",
+      "remote-hosts": "chatgpt.com",
+      "protocol": "tcp",
+      "ports": "443",
+      "priority": "high"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "notes": "Rex 独立 Tailscale 节点协调；未进行防火墙功能验证",
+      "remote-hosts": "controlplane.tailscale.com",
+      "protocol": "tcp",
+      "ports": "443",
+      "priority": "high"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "notes": "Rex HTTPS 证书签发/续期；未进行防火墙功能验证",
+      "remote-hosts": "acme-v02.api.letsencrypt.org",
+      "protocol": "tcp",
+      "ports": "443",
+      "priority": "high"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex",
+      "action": "ask",
+      "direction": "outgoing",
+      "disabled": false,
+      "notes": "rex_client: unknown destinations ask. Review pre-existing broader rules and helper attribution before relying on this.",
+      "remote": "any",
+      "priority": "high"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "ask",
+      "direction": "outgoing",
+      "disabled": false,
+      "notes": "rex_server: unknown destinations ask. Review pre-existing broader rules and helper attribution before relying on this.",
+      "remote": "any",
+      "priority": "high"
+    },
+    {
+      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
+      "action": "ask",
+      "direction": "outgoing",
+      "disabled": false,
+      "notes": "claude: unknown destinations ask. Review pre-existing broader rules and helper attribution before relying on this.",
+      "remote": "any",
+      "priority": "high"
+    },
+    {
+      "process": "identifier.2DC432GLL2/codex",
+      "action": "ask",
+      "direction": "outgoing",
+      "disabled": false,
+      "notes": "codex: unknown destinations ask. Review pre-existing broader rules and helper attribution before relying on this.",
+      "remote": "any",
+      "priority": "high"
+    }
+  ]
+}
