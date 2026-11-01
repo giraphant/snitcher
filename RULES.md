@@ -55,6 +55,7 @@ Rex Server 与 Orca 是终端宿主，在其中运行的 claude、codex、gh、c
 | 学术检索与参考 | 四个程序 | `doi.org`、`crossref.org`、`openalex.org`、`semanticscholar.org`、`arxiv.org`、`scholar.google.com`、`books.google.com`、`api.unpaywall.org`、`core.ac.uk`、`philpapers.org`、`plato.stanford.edu`、`anthroencyclopedia.com`、`pubmed.ncbi.nlm.nih.gov`、`pmc.ncbi.nlm.nih.gov`、`www.researchgate.net`、`research.manchester.ac.uk`、`ccs.yale.edu` |
 | 学术出版商 | 四个程序 | `jstor.org`、`muse.jhu.edu`、`ssrn.com`、`sagepub.com`、`tandfonline.com`、`wiley.com`、`cambridge.org`、`oup.com`、`springer.com`、`sciencedirect.com`、`journals.uchicago.edu`、`dukeupress.edu`、`annualreviews.org` |
 | 中文学术与图书 | 四个程序 | `cnki.net`、`ncpssd.cn`、`xueshu.baidu.com`、`book.douban.com`、`search.douban.com` |
+| 图书与全文 | 四个程序 | `annas-archive.gd`、`annas-archive.pk`、`sci-hub.ru`、`wtgadtq.org`（影子图书馆全文下载）；`thestorygraph.com`（StoryGraph 书目） |
 
 综合平台只放行具体主机：`google.com`、`googleapis.com`、`googleusercontent.com` 含 Forms、Apps Script、云存储桶与用户内容，`baidu.com` 含网盘，`douban.com` 含社区发帖，均可作为外传通道。允许匿名或第三方上传的平台（OSF、Zenodo、Wikipedia）、机构登录入口和出版社 PDF 的第三方 CDN 没有纳入。只开放 443：`http://` 旧链接（如 `http://dx.doi.org`）需改用 `https://`；Claude 的 WebFetch 会自动升级。GitHub、包仓库、Linear 与搜索服务的放行包含该主机上的读写能力，不能限定 URL、仓库、包或 HTTP 方法。
 

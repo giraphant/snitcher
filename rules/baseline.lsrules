@@ -720,6 +720,74 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
+      "notes": "图书与全文：影子图书馆全文下载（Anna's Archive、Sci-Hub 等）与 StoryGraph 书目。域名及子域 TCP 443。2026-11-01 审阅。",
+      "remote-domains": [
+        "annas-archive.gd",
+        "annas-archive.pk",
+        "sci-hub.ru",
+        "wtgadtq.org",
+        "thestorygraph.com"
+      ],
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "图书与全文：影子图书馆全文下载（Anna's Archive、Sci-Hub 等）与 StoryGraph 书目。域名及子域 TCP 443。2026-11-01 审阅。",
+      "remote-domains": [
+        "annas-archive.gd",
+        "annas-archive.pk",
+        "sci-hub.ru",
+        "wtgadtq.org",
+        "thestorygraph.com"
+      ],
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.2DC432GLL2/codex",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "图书与全文：影子图书馆全文下载（Anna's Archive、Sci-Hub 等）与 StoryGraph 书目。域名及子域 TCP 443。2026-11-01 审阅。",
+      "remote-domains": [
+        "annas-archive.gd",
+        "annas-archive.pk",
+        "sci-hub.ru",
+        "wtgadtq.org",
+        "thestorygraph.com"
+      ],
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "图书与全文：影子图书馆全文下载（Anna's Archive、Sci-Hub 等）与 StoryGraph 书目。域名及子域 TCP 443。2026-11-01 审阅。",
+      "remote-domains": [
+        "annas-archive.gd",
+        "annas-archive.pk",
+        "sci-hub.ru",
+        "wtgadtq.org",
+        "thestorygraph.com"
+      ],
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
       "notes": "GitHub：终端里的 gh。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-01 审阅。",
       "via": "path.opt/homebrew/Cellar/gh/*/bin/gh",
       "remote-hosts": [
