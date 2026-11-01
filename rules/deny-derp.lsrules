@@ -1,6 +1,6 @@
 {
   "name": "Snitcher — Block Official DERP",
-  "description": "User-requested, reversible official DERP block for Rex, Claude Code and Codex only. Includes STUN and all protocols to listed nodes. Snapshot 2026-10-31; custom DERP/peer relays are not covered.",
+  "description": "User-requested, reversible official DERP block for Rex, Claude Code and Codex only. Includes STUN and all protocols to listed nodes. Snapshot 2026-10-31; custom DERP/peer relays are not covered. Also blocks the observed derp12c bootstrap DNS fallback listed in the official client source; this endpoint may serve DNS fallback rather than relayed payload.",
   "rules": [
     {
       "process": "identifier.AG92C3PT77/com.superlogical.rex",
@@ -429,6 +429,202 @@
         "derp9f.tailscale.com"
       ],
       "priority": "high"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "官方内置 bootstrap DNS 回退节点；按禁用 DERP 端点的既定选择拒绝。并非仅中继载荷。",
+      "remote-hosts": "derp12c.tailscale.com"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "官方内置 derp12c bootstrap DNS 地址，现行 DERP map 之外的补充；会阻止该端点的 DNS 回退。",
+      "remote-addresses": "149.28.119.105"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "明确拒绝 derp12c TCP 443；比同优先级、同 IP 的 Any Port 放行更具体。",
+      "remote-addresses": "149.28.119.105",
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "官方内置 derp12c bootstrap DNS 地址，现行 DERP map 之外的补充；会阻止该端点的 DNS 回退。",
+      "remote-addresses": "2001:19f0:5c01:2cb:5400:3ff:fe8d:cb60"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "明确拒绝 derp12c TCP 443；比同优先级、同 IP 的 Any Port 放行更具体。",
+      "remote-addresses": "2001:19f0:5c01:2cb:5400:3ff:fe8d:cb60",
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "官方内置 bootstrap DNS 回退节点；按禁用 DERP 端点的既定选择拒绝。并非仅中继载荷。",
+      "remote-hosts": "derp12c.tailscale.com"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "官方内置 derp12c bootstrap DNS 地址，现行 DERP map 之外的补充；会阻止该端点的 DNS 回退。",
+      "remote-addresses": "149.28.119.105"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "明确拒绝 derp12c TCP 443；比同优先级、同 IP 的 Any Port 放行更具体。",
+      "remote-addresses": "149.28.119.105",
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "官方内置 derp12c bootstrap DNS 地址，现行 DERP map 之外的补充；会阻止该端点的 DNS 回退。",
+      "remote-addresses": "2001:19f0:5c01:2cb:5400:3ff:fe8d:cb60"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "明确拒绝 derp12c TCP 443；比同优先级、同 IP 的 Any Port 放行更具体。",
+      "remote-addresses": "2001:19f0:5c01:2cb:5400:3ff:fe8d:cb60",
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "官方内置 bootstrap DNS 回退节点；按禁用 DERP 端点的既定选择拒绝。并非仅中继载荷。",
+      "remote-hosts": "derp12c.tailscale.com"
+    },
+    {
+      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "官方内置 derp12c bootstrap DNS 地址，现行 DERP map 之外的补充；会阻止该端点的 DNS 回退。",
+      "remote-addresses": "149.28.119.105"
+    },
+    {
+      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "明确拒绝 derp12c TCP 443；比同优先级、同 IP 的 Any Port 放行更具体。",
+      "remote-addresses": "149.28.119.105",
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "官方内置 derp12c bootstrap DNS 地址，现行 DERP map 之外的补充；会阻止该端点的 DNS 回退。",
+      "remote-addresses": "2001:19f0:5c01:2cb:5400:3ff:fe8d:cb60"
+    },
+    {
+      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "明确拒绝 derp12c TCP 443；比同优先级、同 IP 的 Any Port 放行更具体。",
+      "remote-addresses": "2001:19f0:5c01:2cb:5400:3ff:fe8d:cb60",
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.2DC432GLL2/codex",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "官方内置 bootstrap DNS 回退节点；按禁用 DERP 端点的既定选择拒绝。并非仅中继载荷。",
+      "remote-hosts": "derp12c.tailscale.com"
+    },
+    {
+      "process": "identifier.2DC432GLL2/codex",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "官方内置 derp12c bootstrap DNS 地址，现行 DERP map 之外的补充；会阻止该端点的 DNS 回退。",
+      "remote-addresses": "149.28.119.105"
+    },
+    {
+      "process": "identifier.2DC432GLL2/codex",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "明确拒绝 derp12c TCP 443；比同优先级、同 IP 的 Any Port 放行更具体。",
+      "remote-addresses": "149.28.119.105",
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.2DC432GLL2/codex",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "官方内置 derp12c bootstrap DNS 地址，现行 DERP map 之外的补充；会阻止该端点的 DNS 回退。",
+      "remote-addresses": "2001:19f0:5c01:2cb:5400:3ff:fe8d:cb60"
+    },
+    {
+      "process": "identifier.2DC432GLL2/codex",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "明确拒绝 derp12c TCP 443；比同优先级、同 IP 的 Any Port 放行更具体。",
+      "remote-addresses": "2001:19f0:5c01:2cb:5400:3ff:fe8d:cb60",
+      "protocol": "tcp",
+      "ports": "443"
     }
   ]
 }

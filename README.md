@@ -14,15 +14,17 @@ Rex、Claude Code、Codex 的 Little Snitch 规则订阅。逐项维护必要目
 https://raw.githubusercontent.com/giraphant/snitcher/main/rules/baseline.lsrules
 ```
 
-允许 Claude 的 `api.anthropic.com`、Codex 的 `chatgpt.com`、Rex 的 Tailscale 协调及证书续期服务，均限 TCP 443。另包含 Rex Server 对 `api.anthropic.com` 和 `chatgpt.com` 的精确主机规则，以覆盖被 Little Snitch 归属为 Rex Server via claude/codex 的连接。它们按父应用匹配，也允许其他 Rex 子进程访问这两个主机，并不限定具体 helper。Rex 客户端及 Rex Server 另按明确选择允许整个 `ts.net` 域名及子域，协议和端口不限；此范围不限于某一个 tailnet。它不会自动放行 `tailscale.com` 或以裸 IP 识别的直连端点。其他出站目标使用 Ask。家庭局域网例外保留在本地；开发工具和学术网站按实际需要逐项确认。
+核心模型、Claude MCP/认证、GitHub、npm/Homebrew、Kagi、已审阅工具文档与学术站点按工作流放行，主要限精确主机 TCP 443。Rex 客户端和 Server 对整个 `ts.net` 及其子域放行；Tailscale 协调按官方要求补 TCP 80 与官方协调地址段。未知目标继续 Ask。
 
-### 2. 非必要遥测拦截
+完整主机、进程范围、理由和待确认类别见 [规则维护清单](RULES.md)。个人局域网和设备地址留在本地。
+
+### 2. 非必要遥测与一次性探测拦截
 
 ```text
 https://raw.githubusercontent.com/giraphant/snitcher/main/rules/deny-telemetry.lsrules
 ```
 
-按程序范围拒绝 Tailscale 日志接收端、Claude Datadog 日志接收端和 Rex 归属的 Homebrew 统计。关闭这个组即可撤销该组影响。
+按程序范围拒绝 Tailscale 日志、Claude Datadog、Homebrew 统计，并拒绝已审阅的一次性 IP 查询、ICMP 测速及特定 HTTP 探测。详细目标和协议见规则维护清单；需要专门排障时可停用对应规则或该组。
 
 ### 3. 官方 DERP 拦截（独立可选组）
 
@@ -30,7 +32,7 @@ https://raw.githubusercontent.com/giraphant/snitcher/main/rules/deny-telemetry.l
 https://raw.githubusercontent.com/giraphant/snitcher/main/rules/deny-derp.lsrules
 ```
 
-只针对上述程序阻止官方 DERP 节点的全部协议和端口，包括 STUN。名单为 2026-10-31 的官方快照，包含 IPv4、IPv6 与域名，不包含自建 DERP 或 Peer Relay。可能影响新连接建立；停用这个组即可撤销其影响。
+只针对上述程序阻止官方 DERP 节点的全部协议和端口，包括 STUN。名单以 2026-10-31 的官方快照为基础，包含 IPv4、IPv6 与域名，并补入已观测的官方内置 derp12c DNS 回退端点；不包含自建 DERP 或 Peer Relay。可能影响新连接建立；停用这个组即可撤销其影响。
 
 ## 自动更新与回退
 

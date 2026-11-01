@@ -1,6 +1,6 @@
 {
-  "name": "Snitcher — Block Optional Telemetry",
-  "description": "Optional diagnostic/analytics endpoints blocked only for the scoped processes. Disable this group to revert. Does not stop the application from retrying.",
+  "name": "Snitcher — Block Optional Telemetry and Probes",
+  "description": "Scoped optional telemetry, IP lookup and observed one-off diagnostic probes. Does not prevent application retries. Disable an individual rule or this group for deliberate diagnostics.",
   "rules": [
     {
       "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
@@ -28,6 +28,273 @@
       "notes": "Homebrew 使用统计；按目的主机拒绝，保留应用其他功能",
       "remote-hosts": "analytics.brew.sh",
       "priority": "high"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "已识别的可选遥测；同时覆盖独立进程与 Rex Server 父应用归属。",
+      "remote-hosts": "http-intake.logs.us5.datadoghq.com"
+    },
+    {
+      "process": "identifier.2DC432GLL2/codex",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "已识别的可选遥测；同时覆盖独立进程与 Rex Server 父应用归属。",
+      "remote-hosts": "http-intake.logs.us5.datadoghq.com"
+    },
+    {
+      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "已识别的可选遥测；同时覆盖独立进程与 Rex Server 父应用归属。",
+      "remote-hosts": "analytics.brew.sh"
+    },
+    {
+      "process": "identifier.2DC432GLL2/codex",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "已识别的可选遥测；同时覆盖独立进程与 Rex Server 父应用归属。",
+      "remote-hosts": "analytics.brew.sh"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Tailscale 官方日志接收地址段；覆盖未显示 log.tailscale.com 的请求。",
+      "remote-addresses": "199.165.136.0/24"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Tailscale 官方日志接收地址段；覆盖未显示 log.tailscale.com 的请求。",
+      "remote-addresses": "2606:b740:1::/48"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "默认不需要的公网 IP 信息查询；排障确需使用时可停用这条规则。",
+      "remote-hosts": "ipinfo.io"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
+      "remote-hosts": "sgp-ping.vultr.com",
+      "protocol": "icmp"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
+      "remote-hosts": "lon-gb-ping.vultr.com",
+      "protocol": "icmp"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
+      "remote-hosts": "speedtest.singapore.linode.com",
+      "protocol": "icmp"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
+      "remote-hosts": "speedtest.london.linode.com",
+      "protocol": "icmp"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的 TCP 80 HTTP 连通性探测；仅拒绝该端口，未来真正的 HTTPS API 使用仍按未知目标询问。",
+      "remote-hosts": "dynamodb.ap-southeast-1.amazonaws.com",
+      "protocol": "tcp",
+      "ports": "80"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的 TCP 80 HTTP 连通性探测；仅拒绝该端口，未来真正的 HTTPS API 使用仍按未知目标询问。",
+      "remote-hosts": "dynamodb.ap-northeast-1.amazonaws.com",
+      "protocol": "tcp",
+      "ports": "80"
+    },
+    {
+      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "默认不需要的公网 IP 信息查询；排障确需使用时可停用这条规则。",
+      "remote-hosts": "ipinfo.io"
+    },
+    {
+      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
+      "remote-hosts": "sgp-ping.vultr.com",
+      "protocol": "icmp"
+    },
+    {
+      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
+      "remote-hosts": "lon-gb-ping.vultr.com",
+      "protocol": "icmp"
+    },
+    {
+      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
+      "remote-hosts": "speedtest.singapore.linode.com",
+      "protocol": "icmp"
+    },
+    {
+      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
+      "remote-hosts": "speedtest.london.linode.com",
+      "protocol": "icmp"
+    },
+    {
+      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的 TCP 80 HTTP 连通性探测；仅拒绝该端口，未来真正的 HTTPS API 使用仍按未知目标询问。",
+      "remote-hosts": "dynamodb.ap-southeast-1.amazonaws.com",
+      "protocol": "tcp",
+      "ports": "80"
+    },
+    {
+      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的 TCP 80 HTTP 连通性探测；仅拒绝该端口，未来真正的 HTTPS API 使用仍按未知目标询问。",
+      "remote-hosts": "dynamodb.ap-northeast-1.amazonaws.com",
+      "protocol": "tcp",
+      "ports": "80"
+    },
+    {
+      "process": "identifier.2DC432GLL2/codex",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "默认不需要的公网 IP 信息查询；排障确需使用时可停用这条规则。",
+      "remote-hosts": "ipinfo.io"
+    },
+    {
+      "process": "identifier.2DC432GLL2/codex",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
+      "remote-hosts": "sgp-ping.vultr.com",
+      "protocol": "icmp"
+    },
+    {
+      "process": "identifier.2DC432GLL2/codex",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
+      "remote-hosts": "lon-gb-ping.vultr.com",
+      "protocol": "icmp"
+    },
+    {
+      "process": "identifier.2DC432GLL2/codex",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
+      "remote-hosts": "speedtest.singapore.linode.com",
+      "protocol": "icmp"
+    },
+    {
+      "process": "identifier.2DC432GLL2/codex",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
+      "remote-hosts": "speedtest.london.linode.com",
+      "protocol": "icmp"
+    },
+    {
+      "process": "identifier.2DC432GLL2/codex",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的 TCP 80 HTTP 连通性探测；仅拒绝该端口，未来真正的 HTTPS API 使用仍按未知目标询问。",
+      "remote-hosts": "dynamodb.ap-southeast-1.amazonaws.com",
+      "protocol": "tcp",
+      "ports": "80"
+    },
+    {
+      "process": "identifier.2DC432GLL2/codex",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的 TCP 80 HTTP 连通性探测；仅拒绝该端口，未来真正的 HTTPS API 使用仍按未知目标询问。",
+      "remote-hosts": "dynamodb.ap-northeast-1.amazonaws.com",
+      "protocol": "tcp",
+      "ports": "80"
     }
   ]
 }
