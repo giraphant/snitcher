@@ -1,6 +1,6 @@
 {
   "name": "Snitcher — Block Optional Telemetry and Probes",
-  "description": "Optional telemetry, feature-flag and IP lookup hosts plus observed one-off diagnostic probes for Rex, Claude Code, Codex and Orca. Disable an individual rule or this group for deliberate diagnostics.",
+  "description": "Optional telemetry, feature-flag and IP lookup hosts, non-essential agy fetches (avatar, plugin catalog, update check) and observed one-off diagnostic probes for Rex, Claude Code, Codex and Orca. Disable an individual rule or this group for deliberate diagnostics.",
   "rules": [
     {
       "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
@@ -189,6 +189,32 @@
       ],
       "protocol": "tcp",
       "ports": "80"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "agy 的非必要连接：账号头像、插件市场目录（拒绝后用缓存）、自动更新检查。更新包来自 storage.googleapis.com，本订阅不放行；需要更新时停用本条并临时放行。",
+      "remote-hosts": [
+        "lh3.googleusercontent.com",
+        "www.gstatic.com",
+        "antigravity-cli-auto-updater-974169037036.us-central1.run.app"
+      ]
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "agy 的非必要连接：账号头像、插件市场目录（拒绝后用缓存）、自动更新检查。更新包来自 storage.googleapis.com，本订阅不放行；需要更新时停用本条并临时放行。",
+      "remote-hosts": [
+        "lh3.googleusercontent.com",
+        "www.gstatic.com",
+        "antigravity-cli-auto-updater-974169037036.us-central1.run.app"
+      ]
     },
     {
       "process": "identifier.AG92C3PT77/com.superlogical.rex.server",

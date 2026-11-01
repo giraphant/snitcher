@@ -16,7 +16,7 @@
 | Codex | `identifier.2DC432GLL2/codex` |
 | Orca（含 Orca Terminal Host） | `identifier.6CX3WHS9HZ/com.stablyai.orca` |
 
-Rex Server 与 Orca 是终端宿主，在其中运行的 claude、codex、gh、curl、node、agy 等子进程由 Little Snitch 归属到它们。因此终端宿主上的放行对其内所有命令生效。下文“四个程序”指 Rex Server、Claude Code、Codex、Orca。
+Rex Server 与 Orca 是终端宿主，在其中运行的 claude、codex、gh、curl、node、agy 等子进程由 Little Snitch 以“宿主 via 工具”归属到它们。宿主规则按签名身份匹配，只在工具本身也有有效开发者签名时才覆盖它；ad-hoc 签名或未签名的工具不适用，见“已知缺口”。下文“四个程序”指 Rex Server、Claude Code、Codex、Orca。
 
 ## 放行：平台服务（精确主机，TCP 443）
 
@@ -33,6 +33,16 @@ Rex Server 与 Orca 是终端宿主，在其中运行的 claude、codex、gh、c
 | Rex 内置 Tailscale 与证书 | Rex Server | `controlplane.tailscale.com`、`acme-v02.api.letsencrypt.org` |
 
 `www.googleapis.com` 是 Google 共享 API 入口，放行面较大，因 agy 需要而保留。Orca 的 `share.onorca.dev`（分享上传）、`relay.onorca.dev`、`connector.onorca.dev` 在历史中未出现，未放行。
+
+## 放行：终端里的 Homebrew 工具（via 规则，精确主机，TCP 443）
+
+这些工具只有 ad-hoc 签名，Rex Server 与 Orca 的宿主规则不覆盖它们，所以各自单独放行，程序写法与 Little Snitch 一致：`*` 代表 `Cellar/<formula>/` 后的版本目录，升级后仍匹配。只列历史中出现过的工具与类别。
+
+| 工具 | via | 类别 |
+|---|---|---|
+| gh | `path.opt/homebrew/Cellar/gh/*/bin/gh` | GitHub |
+| Homebrew curl（brew 下载） | `path.opt/homebrew/Cellar/curl/*/bin/curl` | GitHub、包管理 |
+| Homebrew node（npm） | `path.opt/homebrew/Cellar/node/*/bin/node` | 包管理 |
 
 ## 放行：内容站点（域名及子域，TCP 443）
 
@@ -62,21 +72,23 @@ Rex Server 与 Orca 是终端宿主，在其中运行的 claude、codex、gh、c
 |---|---|
 | 遥测与特性开关 | `http-intake.logs.us5.datadoghq.com`、`browser-intake-us5-datadoghq.com`（Claude）、`analytics.brew.sh`（Homebrew）、`ab.chatgpt.com`（Codex Statsig）、`play.googleapis.com`、`antigravity-unleash.goog`（agy）、`log.tailscale.com`、`ipinfo.io` |
 | 一次性 ICMP 测速 | `sgp-ping.vultr.com`、`lon-gb-ping.vultr.com`、`speedtest.singapore.linode.com`、`speedtest.london.linode.com` |
+| agy 非必要连接（Rex Server、Orca） | `lh3.googleusercontent.com`（账号头像）、`www.gstatic.com`（插件市场目录，拒绝后用缓存）、`antigravity-cli-auto-updater-974169037036.us-central1.run.app`（自动更新检查；更新包来自 `storage.googleapis.com`，未放行） |
 | 一次性 HTTP 探测（仅 TCP 80） | `dynamodb.ap-southeast-1.amazonaws.com`、`dynamodb.ap-northeast-1.amazonaws.com` |
 
 Rex Server 另拒绝 Tailscale 官方日志地址段 `199.165.136.0/24`、`2606:b740:1::/48`。这些规则在白名单模式下与兜底拒绝重叠；保留它们是为了停用 `default-deny` 回到 Ask 时仍然静默拒绝。
 
 `deny-derp.lsrules`，Rex 客户端、Rex Server、Claude、Codex：一条地址列表、一条主机名列表，合并官方 DERP 快照（2026-10-31）与 Tailscale 客户端内置的 bootstrap DNS 回退名单（2026-11-01 快照，24 个节点，含 `derp12c.tailscale.com`）。回退节点不在现行 DERP map 中，客户端在常规 DNS 失败时用它们解析协调服务器；2026-11-01 曾观测到 Rex Server 连续尝试其中 14 个。拒绝后，系统 DNS 正常时不受影响。
 
-`default-deny.lsrules` 对五个程序身份拒绝所有未被更具体规则放行的出站连接。按 2026-10-30 至 10-31 的历史回放，启用后新增拒绝的只有：Telegram 地址的 HTTP 探测与 ping/traceroute、`storage.googleapis.com`（Claude `/plugin` 安装统计）、`lh3.googleusercontent.com`（Google 头像）及对路由器的 ping。
+`default-deny.lsrules` 对五个程序身份拒绝所有未被更具体规则放行的出站连接。按 2026-10-30 至 10-31 的历史回放，启用后新增拒绝的只有：Telegram 地址的 HTTP 探测与 ping/traceroute、`storage.googleapis.com`（Claude `/plugin` 安装统计、agy 自动更新下载）、`lh3.googleusercontent.com`（Google 头像）及对路由器的 ping。
 
 ## 本地例外
 
-家庭局域网、个人设备、个人服务与个人用途站点保留在本地，不发布。发布规则均为高优先级，Little Snitch 先比较优先级再比较具体度：本地例外若不是高优先级，会被 `default-deny` 覆盖。启用白名单模式前，应把需要保留的本地例外改为高优先级。列表形式的拒绝规则不如本地单条规则具体，与订阅冲突的本地单条放行需要删除。
+家庭局域网、个人设备、个人服务与个人用途站点，以及自行编译工具的 via 规则，保留在本地，不发布。发布规则均为高优先级，Little Snitch 先比较优先级再比较具体度：本地例外若不是高优先级，会被 `default-deny` 覆盖。启用白名单模式前，应把需要保留的本地例外改为高优先级。列表形式的拒绝规则不如本地单条规则具体，与订阅冲突的本地单条放行需要删除。
 
 ## 已知缺口
 
 - 遵循 macOS 系统代理的请求（Electron/Chromium 界面与内置浏览器、NSURLSession、Python urllib 等）会先连到本机 Surge 代理，再由 Surge 发出。Little Snitch 不过滤回环连接，看到的是 Surge 而不是原程序，这部分流量不受本白名单约束，需要在 Surge 侧另行限制。
+- 终端宿主里的 ad-hoc 签名或未签名工具不受宿主规则覆盖。Homebrew 安装的工具（gh、uv，以及 brew 使用的 Homebrew curl、node、python 等）和自行编译的程序只有 ad-hoc 签名，没有开发者身份；Little Snitch 不对它们套用“宿主、任意 via”的规则，提示 “an existing rule for any via-process was not applied”。询问模式下逐个弹窗，白名单模式下被拒绝。需要为“宿主 via 工具”建单独的规则：gh、Homebrew curl、node 已由订阅提供，其他工具出现时先在本地放行，再补进订阅。
 - 子进程若被 Little Snitch 归为独立身份而非父应用，只受它自身规则约束。
 - 主机白名单无法实现只读：放行主机上的上传、推送和 API 写入同样可行。
 

@@ -14,7 +14,7 @@ Rex、Claude Code、Codex、Orca 的 Little Snitch 规则订阅，按白名单�
 https://raw.githubusercontent.com/giraphant/snitcher/main/rules/baseline.lsrules
 ```
 
-按类别分组放行，每个程序每类一条规则：GitHub、包管理、Anthropic、OpenAI、终端工具服务、Orca 服务等平台限精确主机，搜索、文档、学术检索、学术出版商、中文学术等内容站点按域名，均为 TCP 443。Rex 客户端、Rex Server 与 Orca 对整个 `ts.net` 及其子域放行；Rex Server 另放行内置 Tailscale 直连所需的高位 UDP；Tailscale 协调按官方要求补 TCP 80 与官方协调地址段。未匹配目标 Ask。
+按类别分组放行，每个程序每类一条规则：GitHub、包管理、Anthropic、OpenAI、终端工具服务、Orca 服务等平台限精确主机，搜索、文档、学术检索、学术出版商、中文学术等内容站点按域名，均为 TCP 443。终端里只有 ad-hoc 签名的 Homebrew 工具（gh、curl、node）另有 via 规则。Rex 客户端、Rex Server 与 Orca 对整个 `ts.net` 及其子域放行；Rex Server 另放行内置 Tailscale 直连所需的高位 UDP；Tailscale 协调按官方要求补 TCP 80 与官方协调地址段。未匹配目标 Ask。
 
 完整主机、进程范围、理由和待确认类别见 [规则维护清单](RULES.md)。个人局域网和设备地址留在本地。
 
@@ -24,7 +24,7 @@ https://raw.githubusercontent.com/giraphant/snitcher/main/rules/baseline.lsrules
 https://raw.githubusercontent.com/giraphant/snitcher/main/rules/deny-telemetry.lsrules
 ```
 
-按程序范围拒绝 Tailscale 日志、Claude Datadog、Homebrew 统计、Antigravity CLI 统计，并拒绝已审阅的一次性 IP 查询、ICMP 测速及特定 HTTP 探测。详细目标和协议见规则维护清单；需要专门排障时可停用对应规则或该组。
+按程序范围拒绝 Tailscale 日志、Claude Datadog、Homebrew 统计、Antigravity CLI 统计及其头像、插件目录与自动更新检查，并拒绝已审阅的一次性 IP 查询、ICMP 测速及特定 HTTP 探测。详细目标和协议见规则维护清单；需要专门排障时可停用对应规则或该组。
 
 ### 3. 官方 DERP 拦截（独立可选组）
 
@@ -59,7 +59,7 @@ https://raw.githubusercontent.com/giraphant/snitcher/main/rules/default-deny.lsr
 
 ## 范围和边界
 
-规则通过签名身份匹配 Rex 客户端、Rex Server、Claude Code、Codex、Orca，没有 `Any Process` 全机规则。程序签名变化后需要重新核对。Rex Server 与 Orca 是终端宿主，其中运行的命令归属到它们，终端宿主上的放行对其内所有命令生效。
+规则通过签名身份匹配 Rex 客户端、Rex Server、Claude Code、Codex、Orca，没有 `Any Process` 全机规则。程序签名变化后需要重新核对。Rex Server 与 Orca 是终端宿主，其中运行的命令以“宿主 via 工具”归属到它们。宿主规则只覆盖有有效开发者签名的工具（claude、codex、agy、系统自带的 curl 与 git 等）；Homebrew 安装或自行编译的工具（gh、uv、Homebrew 的 curl、node、python 等）只有 ad-hoc 签名，Little Snitch 出于安全不对它们套用宿主规则，这类连接会落到询问，启用第 4 组后则被拒绝。订阅为历史中出现过的 gh、Homebrew curl、node 提供了 via 规则；其他工具（uv、Homebrew python、自行编译的程序）需要在本地为“宿主 via 工具”建规则。
 
 发布规则采用高优先级。Little Snitch 先比较优先级再比较具体度，普通优先级的本地规则无论多具体都会被这些规则覆盖。普通 Third Party Apps 全放行不应盖过这些高优先级规则。
 

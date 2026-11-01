@@ -1,6 +1,6 @@
 {
   "name": "Snitcher — Reviewed Workflows + Ask",
-  "description": "Grouped allowlist for Rex Server, Claude Code, Codex and Orca: GitHub, packages, model and account services, search, documentation, academic sources. Rex and Orca ts.net access; Rex Server high-port UDP for built-in Tailscale. Unmatched destinations ASK; add the Default Deny group to turn this into an allowlist.",
+  "description": "Grouped allowlist for Rex Server, Claude Code, Codex and Orca: GitHub, packages, model and account services, search, documentation, academic sources, plus via rules for ad-hoc signed Homebrew tools (gh, curl, node) in the Rex and Orca terminals. Rex and Orca ts.net access; Rex Server high-port UDP for built-in Tailscale. Unmatched destinations ASK; add the Default Deny group to turn this into an allowlist.",
   "rules": [
     {
       "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
@@ -710,6 +710,150 @@
         "xueshu.baidu.com",
         "book.douban.com",
         "search.douban.com"
+      ],
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "GitHub：终端里的 gh。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-01 审阅。",
+      "via": "path.opt/homebrew/Cellar/gh/*/bin/gh",
+      "remote-hosts": [
+        "github.com",
+        "api.github.com",
+        "raw.githubusercontent.com",
+        "codeload.github.com",
+        "objects.githubusercontent.com",
+        "release-assets.githubusercontent.com"
+      ],
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "GitHub：终端里的 gh。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-01 审阅。",
+      "via": "path.opt/homebrew/Cellar/gh/*/bin/gh",
+      "remote-hosts": [
+        "github.com",
+        "api.github.com",
+        "raw.githubusercontent.com",
+        "codeload.github.com",
+        "objects.githubusercontent.com",
+        "release-assets.githubusercontent.com"
+      ],
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "GitHub：终端里的 Homebrew curl（brew 下载）。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-01 审阅。",
+      "via": "path.opt/homebrew/Cellar/curl/*/bin/curl",
+      "remote-hosts": [
+        "github.com",
+        "api.github.com",
+        "raw.githubusercontent.com",
+        "codeload.github.com",
+        "objects.githubusercontent.com",
+        "release-assets.githubusercontent.com"
+      ],
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "GitHub：终端里的 Homebrew curl（brew 下载）。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-01 审阅。",
+      "via": "path.opt/homebrew/Cellar/curl/*/bin/curl",
+      "remote-hosts": [
+        "github.com",
+        "api.github.com",
+        "raw.githubusercontent.com",
+        "codeload.github.com",
+        "objects.githubusercontent.com",
+        "release-assets.githubusercontent.com"
+      ],
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "包管理：终端里的 Homebrew curl（brew 下载）。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-01 审阅。",
+      "via": "path.opt/homebrew/Cellar/curl/*/bin/curl",
+      "remote-hosts": [
+        "registry.npmjs.org",
+        "ghcr.io",
+        "pkg-containers.githubusercontent.com",
+        "formulae.brew.sh"
+      ],
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "包管理：终端里的 Homebrew curl（brew 下载）。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-01 审阅。",
+      "via": "path.opt/homebrew/Cellar/curl/*/bin/curl",
+      "remote-hosts": [
+        "registry.npmjs.org",
+        "ghcr.io",
+        "pkg-containers.githubusercontent.com",
+        "formulae.brew.sh"
+      ],
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "包管理：终端里的 Homebrew node（npm）。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-01 审阅。",
+      "via": "path.opt/homebrew/Cellar/node/*/bin/node",
+      "remote-hosts": [
+        "registry.npmjs.org",
+        "ghcr.io",
+        "pkg-containers.githubusercontent.com",
+        "formulae.brew.sh"
+      ],
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "包管理：终端里的 Homebrew node（npm）。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-01 审阅。",
+      "via": "path.opt/homebrew/Cellar/node/*/bin/node",
+      "remote-hosts": [
+        "registry.npmjs.org",
+        "ghcr.io",
+        "pkg-containers.githubusercontent.com",
+        "formulae.brew.sh"
       ],
       "protocol": "tcp",
       "ports": "443"
