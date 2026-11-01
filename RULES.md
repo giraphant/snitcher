@@ -36,6 +36,8 @@ Rex Server 与 Orca 是终端宿主，在其中运行的 claude、codex、gh、c
 | 依赖安装 | `formulae.brew.sh` | Homebrew 包目录与元数据 |
 | 工具维护 | `releases.openai.com` | 历史中重复出现的发行信息访问 |
 | 搜索 | `kagi.com` | 已使用的 Kagi 搜索工作流 |
+| 搜索 | `www.google.com` | Google 搜索；不放行整个 google.com（含 Forms、Apps Script、Drive） |
+| 搜索 | `www.bing.com` | Bing 搜索 |
 | 工具文档 | `www.superlogical.com` | Rex 厂商文档 |
 | 工具文档 | `www.onorca.dev` | Orca 文档工作流 |
 | 工具文档 | `core.telegram.org` | Telegram 开发文档 |
@@ -43,34 +45,46 @@ Rex Server 与 Orca 是终端宿主，在其中运行的 claude、codex、gh、c
 | 学术 | `scholar.google.com` | 学术搜索；全机代理记录中的工作流候选 |
 | 学术 | `research.manchester.ac.uk` | 学术研究门户；代理记录不作为 agent 访问证明 |
 | 学术 | `ccs.yale.edu` | 学术研究机构网站；代理记录不作为 agent 访问证明 |
-| 学术检索 | `doi.org` | DOI 解析 |
-| 学术检索 | `api.crossref.org` | Crossref 文献元数据 |
 | 学术检索 | `api.openalex.org` | OpenAlex 文献与引用检索 |
-| 学术检索 | `api.semanticscholar.org` | Semantic Scholar API |
-| 学术检索 | `www.semanticscholar.org` | Semantic Scholar 页面 |
 | 学术检索 | `export.arxiv.org` | arXiv API |
 | 学术检索 | `api.unpaywall.org` | 开放获取版本查询 |
 | 学术检索 | `core.ac.uk` | CORE 开放获取全文聚合 |
 | 学术检索 | `philpapers.org` | PhilPapers 理论与哲学文献索引 |
 | 学术检索 | `plato.stanford.edu` | 斯坦福哲学百科 |
 | 学术检索 | `books.google.com` | 图书检索与预览 |
+| 学术检索 | `xueshu.baidu.com` | 百度学术；不放行整个 baidu.com（含百度网盘） |
+| 学术检索 | `book.douban.com` | 豆瓣读书图书信息 |
+| 学术检索 | `search.douban.com` | 豆瓣读书检索 |
+| 学术检索 | `www.researchgate.net` | ResearchGate 论文页面；上传需登录账号 |
 | 学术检索 | `pubmed.ncbi.nlm.nih.gov` | PubMed 摘要检索 |
 | 学术检索 | `pmc.ncbi.nlm.nih.gov` | PubMed Central 开放全文 |
-| 学术出版 | `www.jstor.org` | JSTOR |
 | 学术出版 | `muse.jhu.edu` | Project MUSE |
 | 学术出版 | `papers.ssrn.com` | SSRN 预印本 |
 | 学术出版 | `journals.sagepub.com` | SAGE 期刊 |
-| 学术出版 | `www.tandfonline.com` | Taylor & Francis 期刊 |
 | 学术出版 | `onlinelibrary.wiley.com` | Wiley 期刊 |
 | 学术出版 | `www.cambridge.org` | Cambridge Core |
 | 学术出版 | `academic.oup.com` | Oxford Academic |
-| 学术出版 | `link.springer.com` | Springer |
 | 学术出版 | `www.sciencedirect.com` | Elsevier ScienceDirect |
 | 学术出版 | `www.journals.uchicago.edu` | University of Chicago Press 期刊 |
 | 学术出版 | `read.dukeupress.edu` | Duke University Press |
 | 学术出版 | `www.annualreviews.org` | Annual Reviews |
 
-“学术”四项来自全机代理记录；“学术检索”与“学术出版”是按学术工作需要预置的只读来源，不声称已由 agent 访问。允许匿名或第三方上传的平台（OSF、Zenodo、Wikipedia、ResearchGate）、机构登录入口和出版社 PDF 的第三方 CDN 没有纳入；DOI 跳转到名单外出版社时会被拒绝，需要时逐个补充。GitHub、包仓库与搜索服务的放行包含该主机上的读写能力，不能限定 URL、仓库、包或 HTTP 方法。
+页面、PDF 与 API 分散在多个子域的只读站点按域名放行，含域名本身及全部子域，TCP 443 与 80。80 端口只为兼容 `http://dx.doi.org` 这类会跳转到 HTTPS 的旧链接。
+
+| 类别 | 域名 | 用途 |
+|---|---|---|
+| 学术检索 | `doi.org` | DOI 解析，含 dx.doi.org |
+| 学术检索 | `crossref.org` | Crossref 元数据 API 与检索 |
+| 学术检索 | `semanticscholar.org` | Semantic Scholar 页面、API 与 PDF |
+| 学术检索 | `cnki.net` | 中国知网 |
+| 学术检索 | `ncpssd.cn` | 国家哲学社会科学文献中心 |
+| 学术检索 | `anthroencyclopedia.com` | Open Encyclopedia of Anthropology |
+| 学术出版 | `jstor.org` | JSTOR |
+| 学术出版 | `springer.com` | Springer |
+| 学术出版 | `tandfonline.com` | Taylor & Francis 期刊 |
+| 搜索 | `duckduckgo.com` | DuckDuckGo 搜索，含 html/lite 版本 |
+
+“学术”四项来自全机代理记录；其余学术与搜索项来自 Orca 既有本地白名单和学术工作需要，不声称均已由 agent 访问。综合平台只放行具体主机：`google.com`、`googleapis.com`、`googleusercontent.com` 含 Forms、Apps Script、云存储桶与用户内容，`baidu.com` 含网盘，`douban.com` 含社区发帖，均可作为外传通道，不按域名放行。允许匿名或第三方上传的平台（OSF、Zenodo、Wikipedia）、机构登录入口和出版社 PDF 的第三方 CDN 没有纳入；DOI 跳转到名单外出版社时会被拒绝，需要时逐个补充。GitHub、包仓库与搜索服务的放行包含该主机上的读写能力，不能限定 URL、仓库、包或 HTTP 方法。
 
 ## 模型、账号与程序服务
 
