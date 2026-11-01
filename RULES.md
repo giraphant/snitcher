@@ -119,7 +119,7 @@ Orca 的 `share.onorca.dev`（分享上传）、`relay.onorca.dev`、`connector.
 
 ## 自动拒绝
 
-`deny-telemetry.lsrules` 拒绝 Tailscale 日志、Claude Datadog（遥测与错误报告两个主机）、Homebrew 统计，以及 agy 的 `play.googleapis.com` 使用统计与 `antigravity-unleash.goog` 特性开关；补齐 Rex Server 父应用归属和 Tailscale 官方日志地址段。另纳入不属于常规工作流的一次性诊断：`ipinfo.io` 公网 IP 查询；`sgp-ping.vultr.com`、`lon-gb-ping.vultr.com`、`speedtest.singapore.linode.com`、`speedtest.london.linode.com` 的 ICMP；`dynamodb.ap-southeast-1.amazonaws.com` 与 `dynamodb.ap-northeast-1.amazonaws.com` 的 TCP 80 HTTP 探测。Orca 归属的同类连接一并拒绝。这些规则在白名单模式下与兜底拒绝重叠；保留它们是为了停用 `default-deny` 回到 Ask 时仍然静默拒绝。
+`deny-telemetry.lsrules` 拒绝 Tailscale 日志、Claude Datadog（遥测与错误报告两个主机）、Homebrew 统计，Codex 的 `ab.chatgpt.com`（Statsig 实验分组与事件上报），以及 agy 的 `play.googleapis.com` 使用统计与 `antigravity-unleash.goog` 特性开关；补齐 Rex Server 父应用归属和 Tailscale 官方日志地址段。另纳入不属于常规工作流的一次性诊断：`ipinfo.io` 公网 IP 查询；`sgp-ping.vultr.com`、`lon-gb-ping.vultr.com`、`speedtest.singapore.linode.com`、`speedtest.london.linode.com` 的 ICMP；`dynamodb.ap-southeast-1.amazonaws.com` 与 `dynamodb.ap-northeast-1.amazonaws.com` 的 TCP 80 HTTP 探测。Orca 归属的同类连接一并拒绝。这些规则在白名单模式下与兜底拒绝重叠；保留它们是为了停用 `default-deny` 回到 Ask 时仍然静默拒绝。
 
 `deny-derp.lsrules` 继续拒绝现行官方 DERP 快照内端点；另拒绝 Tailscale 客户端内置的整份 bootstrap DNS 回退名单（2026-11-01 快照，24 个节点的主机名与 IPv4/IPv6 地址，含 `derp12c.tailscale.com`）。这些节点不在现行 DERP map 中，客户端在常规 DNS 失败时用它们解析协调服务器；2026-11-01 曾观测到 Rex Server 连续尝试其中 14 个。拒绝后，系统 DNS 正常时不受影响。地址以列表形式发布：Little Snitch 中较短的列表更具体，本地针对同一 IP 的单条放行会胜过它，需删除。
 

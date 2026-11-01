@@ -447,6 +447,33 @@
       "priority": "high",
       "notes": "Antigravity CLI（agy）特性开关与使用统计；历史中已被拒绝且未影响使用。",
       "remote-hosts": "antigravity-unleash.goog"
+    },
+    {
+      "process": "identifier.2DC432GLL2/codex",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Codex 的 Statsig 实验分组与事件上报（/v1/initialize、/v1/rgstr）；关闭 analytics 后仍会连接。",
+      "remote-hosts": "ab.chatgpt.com"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Codex 的 Statsig 实验分组与事件上报（/v1/initialize、/v1/rgstr）；关闭 analytics 后仍会连接。",
+      "remote-hosts": "ab.chatgpt.com"
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Codex 的 Statsig 实验分组与事件上报（/v1/initialize、/v1/rgstr）；关闭 analytics 后仍会连接。",
+      "remote-hosts": "ab.chatgpt.com"
     }
   ]
 }
