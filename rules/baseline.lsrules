@@ -1,6 +1,6 @@
 {
   "name": "Snitcher — Core Allowlist + Ask",
-  "description": "Active rules for Rex, Claude Code and Codex only. Core HTTPS hosts allowed; other outbound targets ASK. High priority overrides ordinary broad allow rules. Existing HIGH-priority specific rules may still override ASK. Private hosts and task-dependent tools need separate reviewed exceptions. Proxy/browser attribution is not guaranteed.",
+  "description": "Active rules for Rex, Claude Code and Codex only. Core HTTPS hosts and Rex access to the ts.net domain are allowed; other outbound targets ASK. High priority. Private LAN exceptions stay local. Existing specific rules and proxy attribution need review.",
   "rules": [
     {
       "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
@@ -67,6 +67,24 @@
       "protocol": "tcp",
       "ports": "443",
       "priority": "high"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "remote-domains": "ts.net",
+      "priority": "high",
+      "notes": "Explicitly approved ts.net domain-wide access for Rex remote connections; any protocol and port. Does not grant tailscale.com or numeric-IP destinations by itself."
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "remote-domains": "ts.net",
+      "priority": "high",
+      "notes": "Explicitly approved ts.net domain-wide access for Rex remote connections; any protocol and port. Does not grant tailscale.com or numeric-IP destinations by itself."
     },
     {
       "process": "identifier.AG92C3PT77/com.superlogical.rex",
