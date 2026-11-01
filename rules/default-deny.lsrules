@@ -8,7 +8,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "白名单模式兜底拒绝。同优先级下，任何更具体的放行规则都会胜出；停用本组即回到询问。",
+      "notes": "白名单模式兜底拒绝。任何更具体的放行规则都会胜出；停用本组即回到询问。",
       "remote": "any"
     },
     {
@@ -17,7 +17,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "白名单模式兜底拒绝。同优先级下，任何更具体的放行规则都会胜出；停用本组即回到询问。",
+      "notes": "白名单模式兜底拒绝。任何更具体的放行规则都会胜出；停用本组即回到询问。",
       "remote": "any"
     },
     {
@@ -26,7 +26,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "白名单模式兜底拒绝。同优先级下，任何更具体的放行规则都会胜出；停用本组即回到询问。",
+      "notes": "白名单模式兜底拒绝。任何更具体的放行规则都会胜出；停用本组即回到询问。",
       "remote": "any"
     },
     {
@@ -35,7 +35,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "白名单模式兜底拒绝。同优先级下，任何更具体的放行规则都会胜出；停用本组即回到询问。",
+      "notes": "白名单模式兜底拒绝。任何更具体的放行规则都会胜出；停用本组即回到询问。",
       "remote": "any"
     },
     {
@@ -44,7 +44,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "白名单模式兜底拒绝。同优先级下，任何更具体的放行规则都会胜出；停用本组即回到询问。",
+      "notes": "白名单模式兜底拒绝。任何更具体的放行规则都会胜出；停用本组即回到询问。",
       "remote": "any"
     }
   ]

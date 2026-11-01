@@ -1,33 +1,24 @@
 {
   "name": "Snitcher — Block Optional Telemetry and Probes",
-  "description": "Scoped optional telemetry, IP lookup and observed one-off diagnostic probes for Rex, Claude Code, Codex and Orca. Does not prevent application retries. Disable an individual rule or this group for deliberate diagnostics.",
+  "description": "Optional telemetry, feature-flag and IP lookup hosts plus observed one-off diagnostic probes for Rex, Claude Code, Codex and Orca. Disable an individual rule or this group for deliberate diagnostics.",
   "rules": [
     {
       "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
       "action": "deny",
       "direction": "outgoing",
       "disabled": false,
-      "notes": "Tailscale 连接诊断日志上传；按目的主机拒绝，保留应用其他功能",
-      "remote-hosts": "log.tailscale.com",
-      "priority": "high"
-    },
-    {
-      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "notes": "Claude 的 Datadog 日志接收端；按目的主机拒绝，保留应用其他功能",
-      "remote-hosts": "http-intake.logs.us5.datadoghq.com",
-      "priority": "high"
-    },
-    {
-      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "notes": "Homebrew 使用统计；按目的主机拒绝，保留应用其他功能",
-      "remote-hosts": "analytics.brew.sh",
-      "priority": "high"
+      "priority": "high",
+      "notes": "可选遥测、使用统计、特性开关与公网 IP 查询：Claude Datadog、Homebrew 统计、Codex Statsig、agy Clearcut/Unleash、Tailscale 日志、ipinfo。",
+      "remote-hosts": [
+        "http-intake.logs.us5.datadoghq.com",
+        "browser-intake-us5-datadoghq.com",
+        "analytics.brew.sh",
+        "ab.chatgpt.com",
+        "play.googleapis.com",
+        "antigravity-unleash.goog",
+        "log.tailscale.com",
+        "ipinfo.io"
+      ]
     },
     {
       "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
@@ -35,17 +26,28 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "已识别的可选遥测；同时覆盖独立进程与 Rex Server 父应用归属。",
-      "remote-hosts": "http-intake.logs.us5.datadoghq.com"
+      "notes": "历史中的一次性 ICMP 网络测速。",
+      "remote-hosts": [
+        "sgp-ping.vultr.com",
+        "lon-gb-ping.vultr.com",
+        "speedtest.singapore.linode.com",
+        "speedtest.london.linode.com"
+      ],
+      "protocol": "icmp"
     },
     {
-      "process": "identifier.2DC432GLL2/codex",
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
       "action": "deny",
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "已识别的可选遥测；同时覆盖独立进程与 Rex Server 父应用归属。",
-      "remote-hosts": "http-intake.logs.us5.datadoghq.com"
+      "notes": "历史中的 TCP 80 HTTP 连通性探测；不影响这些主机的 HTTPS。",
+      "remote-hosts": [
+        "dynamodb.ap-southeast-1.amazonaws.com",
+        "dynamodb.ap-northeast-1.amazonaws.com"
+      ],
+      "protocol": "tcp",
+      "ports": "80"
     },
     {
       "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
@@ -53,8 +55,46 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "已识别的可选遥测；同时覆盖独立进程与 Rex Server 父应用归属。",
-      "remote-hosts": "analytics.brew.sh"
+      "notes": "可选遥测、使用统计、特性开关与公网 IP 查询：Claude Datadog、Homebrew 统计、Codex Statsig、agy Clearcut/Unleash、Tailscale 日志、ipinfo。",
+      "remote-hosts": [
+        "http-intake.logs.us5.datadoghq.com",
+        "browser-intake-us5-datadoghq.com",
+        "analytics.brew.sh",
+        "ab.chatgpt.com",
+        "play.googleapis.com",
+        "antigravity-unleash.goog",
+        "log.tailscale.com",
+        "ipinfo.io"
+      ]
+    },
+    {
+      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的一次性 ICMP 网络测速。",
+      "remote-hosts": [
+        "sgp-ping.vultr.com",
+        "lon-gb-ping.vultr.com",
+        "speedtest.singapore.linode.com",
+        "speedtest.london.linode.com"
+      ],
+      "protocol": "icmp"
+    },
+    {
+      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的 TCP 80 HTTP 连通性探测；不影响这些主机的 HTTPS。",
+      "remote-hosts": [
+        "dynamodb.ap-southeast-1.amazonaws.com",
+        "dynamodb.ap-northeast-1.amazonaws.com"
+      ],
+      "protocol": "tcp",
+      "ports": "80"
     },
     {
       "process": "identifier.2DC432GLL2/codex",
@@ -62,8 +102,93 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "已识别的可选遥测；同时覆盖独立进程与 Rex Server 父应用归属。",
-      "remote-hosts": "analytics.brew.sh"
+      "notes": "可选遥测、使用统计、特性开关与公网 IP 查询：Claude Datadog、Homebrew 统计、Codex Statsig、agy Clearcut/Unleash、Tailscale 日志、ipinfo。",
+      "remote-hosts": [
+        "http-intake.logs.us5.datadoghq.com",
+        "browser-intake-us5-datadoghq.com",
+        "analytics.brew.sh",
+        "ab.chatgpt.com",
+        "play.googleapis.com",
+        "antigravity-unleash.goog",
+        "log.tailscale.com",
+        "ipinfo.io"
+      ]
+    },
+    {
+      "process": "identifier.2DC432GLL2/codex",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的一次性 ICMP 网络测速。",
+      "remote-hosts": [
+        "sgp-ping.vultr.com",
+        "lon-gb-ping.vultr.com",
+        "speedtest.singapore.linode.com",
+        "speedtest.london.linode.com"
+      ],
+      "protocol": "icmp"
+    },
+    {
+      "process": "identifier.2DC432GLL2/codex",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的 TCP 80 HTTP 连通性探测；不影响这些主机的 HTTPS。",
+      "remote-hosts": [
+        "dynamodb.ap-southeast-1.amazonaws.com",
+        "dynamodb.ap-northeast-1.amazonaws.com"
+      ],
+      "protocol": "tcp",
+      "ports": "80"
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "可选遥测、使用统计、特性开关与公网 IP 查询：Claude Datadog、Homebrew 统计、Codex Statsig、agy Clearcut/Unleash、Tailscale 日志、ipinfo。",
+      "remote-hosts": [
+        "http-intake.logs.us5.datadoghq.com",
+        "browser-intake-us5-datadoghq.com",
+        "analytics.brew.sh",
+        "ab.chatgpt.com",
+        "play.googleapis.com",
+        "antigravity-unleash.goog",
+        "log.tailscale.com",
+        "ipinfo.io"
+      ]
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的一次性 ICMP 网络测速。",
+      "remote-hosts": [
+        "sgp-ping.vultr.com",
+        "lon-gb-ping.vultr.com",
+        "speedtest.singapore.linode.com",
+        "speedtest.london.linode.com"
+      ],
+      "protocol": "icmp"
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的 TCP 80 HTTP 连通性探测；不影响这些主机的 HTTPS。",
+      "remote-hosts": [
+        "dynamodb.ap-southeast-1.amazonaws.com",
+        "dynamodb.ap-northeast-1.amazonaws.com"
+      ],
+      "protocol": "tcp",
+      "ports": "80"
     },
     {
       "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
@@ -72,408 +197,7 @@
       "disabled": false,
       "priority": "high",
       "notes": "Tailscale 官方日志接收地址段；覆盖未显示 log.tailscale.com 的请求。",
-      "remote-addresses": "199.165.136.0/24"
-    },
-    {
-      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "Tailscale 官方日志接收地址段；覆盖未显示 log.tailscale.com 的请求。",
-      "remote-addresses": "2606:b740:1::/48"
-    },
-    {
-      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "默认不需要的公网 IP 信息查询；排障确需使用时可停用这条规则。",
-      "remote-hosts": "ipinfo.io"
-    },
-    {
-      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
-      "remote-hosts": "sgp-ping.vultr.com",
-      "protocol": "icmp"
-    },
-    {
-      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
-      "remote-hosts": "lon-gb-ping.vultr.com",
-      "protocol": "icmp"
-    },
-    {
-      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
-      "remote-hosts": "speedtest.singapore.linode.com",
-      "protocol": "icmp"
-    },
-    {
-      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
-      "remote-hosts": "speedtest.london.linode.com",
-      "protocol": "icmp"
-    },
-    {
-      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "历史中的 TCP 80 HTTP 连通性探测；仅拒绝该端口，未来真正的 HTTPS API 使用仍按未知目标询问。",
-      "remote-hosts": "dynamodb.ap-southeast-1.amazonaws.com",
-      "protocol": "tcp",
-      "ports": "80"
-    },
-    {
-      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "历史中的 TCP 80 HTTP 连通性探测；仅拒绝该端口，未来真正的 HTTPS API 使用仍按未知目标询问。",
-      "remote-hosts": "dynamodb.ap-northeast-1.amazonaws.com",
-      "protocol": "tcp",
-      "ports": "80"
-    },
-    {
-      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "默认不需要的公网 IP 信息查询；排障确需使用时可停用这条规则。",
-      "remote-hosts": "ipinfo.io"
-    },
-    {
-      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
-      "remote-hosts": "sgp-ping.vultr.com",
-      "protocol": "icmp"
-    },
-    {
-      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
-      "remote-hosts": "lon-gb-ping.vultr.com",
-      "protocol": "icmp"
-    },
-    {
-      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
-      "remote-hosts": "speedtest.singapore.linode.com",
-      "protocol": "icmp"
-    },
-    {
-      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
-      "remote-hosts": "speedtest.london.linode.com",
-      "protocol": "icmp"
-    },
-    {
-      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "历史中的 TCP 80 HTTP 连通性探测；仅拒绝该端口，未来真正的 HTTPS API 使用仍按未知目标询问。",
-      "remote-hosts": "dynamodb.ap-southeast-1.amazonaws.com",
-      "protocol": "tcp",
-      "ports": "80"
-    },
-    {
-      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "历史中的 TCP 80 HTTP 连通性探测；仅拒绝该端口，未来真正的 HTTPS API 使用仍按未知目标询问。",
-      "remote-hosts": "dynamodb.ap-northeast-1.amazonaws.com",
-      "protocol": "tcp",
-      "ports": "80"
-    },
-    {
-      "process": "identifier.2DC432GLL2/codex",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "默认不需要的公网 IP 信息查询；排障确需使用时可停用这条规则。",
-      "remote-hosts": "ipinfo.io"
-    },
-    {
-      "process": "identifier.2DC432GLL2/codex",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
-      "remote-hosts": "sgp-ping.vultr.com",
-      "protocol": "icmp"
-    },
-    {
-      "process": "identifier.2DC432GLL2/codex",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
-      "remote-hosts": "lon-gb-ping.vultr.com",
-      "protocol": "icmp"
-    },
-    {
-      "process": "identifier.2DC432GLL2/codex",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
-      "remote-hosts": "speedtest.singapore.linode.com",
-      "protocol": "icmp"
-    },
-    {
-      "process": "identifier.2DC432GLL2/codex",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
-      "remote-hosts": "speedtest.london.linode.com",
-      "protocol": "icmp"
-    },
-    {
-      "process": "identifier.2DC432GLL2/codex",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "历史中的 TCP 80 HTTP 连通性探测；仅拒绝该端口，未来真正的 HTTPS API 使用仍按未知目标询问。",
-      "remote-hosts": "dynamodb.ap-southeast-1.amazonaws.com",
-      "protocol": "tcp",
-      "ports": "80"
-    },
-    {
-      "process": "identifier.2DC432GLL2/codex",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "历史中的 TCP 80 HTTP 连通性探测；仅拒绝该端口，未来真正的 HTTPS API 使用仍按未知目标询问。",
-      "remote-hosts": "dynamodb.ap-northeast-1.amazonaws.com",
-      "protocol": "tcp",
-      "ports": "80"
-    },
-    {
-      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "notes": "Claude 的 Datadog 日志接收端；按目的主机拒绝，保留应用其他功能",
-      "remote-hosts": "http-intake.logs.us5.datadoghq.com",
-      "priority": "high"
-    },
-    {
-      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "已识别的可选遥测；同时覆盖独立进程与 Rex Server 父应用归属。",
-      "remote-hosts": "analytics.brew.sh"
-    },
-    {
-      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "默认不需要的公网 IP 信息查询；排障确需使用时可停用这条规则。",
-      "remote-hosts": "ipinfo.io"
-    },
-    {
-      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
-      "remote-hosts": "sgp-ping.vultr.com",
-      "protocol": "icmp"
-    },
-    {
-      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
-      "remote-hosts": "lon-gb-ping.vultr.com",
-      "protocol": "icmp"
-    },
-    {
-      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
-      "remote-hosts": "speedtest.singapore.linode.com",
-      "protocol": "icmp"
-    },
-    {
-      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
-      "remote-hosts": "speedtest.london.linode.com",
-      "protocol": "icmp"
-    },
-    {
-      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "历史中的 TCP 80 HTTP 连通性探测；仅拒绝该端口，未来真正的 HTTPS API 使用仍按未知目标询问。",
-      "remote-hosts": "dynamodb.ap-southeast-1.amazonaws.com",
-      "protocol": "tcp",
-      "ports": "80"
-    },
-    {
-      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "历史中的 TCP 80 HTTP 连通性探测；仅拒绝该端口，未来真正的 HTTPS API 使用仍按未知目标询问。",
-      "remote-hosts": "dynamodb.ap-northeast-1.amazonaws.com",
-      "protocol": "tcp",
-      "ports": "80"
-    },
-    {
-      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "Claude Code 可选错误报告；官方说明可关闭。",
-      "remote-hosts": "browser-intake-us5-datadoghq.com"
-    },
-    {
-      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "Claude Code 可选错误报告；官方说明可关闭。",
-      "remote-hosts": "browser-intake-us5-datadoghq.com"
-    },
-    {
-      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "Claude Code 可选错误报告；官方说明可关闭。",
-      "remote-hosts": "browser-intake-us5-datadoghq.com"
-    },
-    {
-      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "Antigravity CLI（agy）Clearcut 使用统计。",
-      "remote-hosts": "play.googleapis.com"
-    },
-    {
-      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "Antigravity CLI（agy）Clearcut 使用统计。",
-      "remote-hosts": "play.googleapis.com"
-    },
-    {
-      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "Antigravity CLI（agy）特性开关与使用统计；历史中已被拒绝且未影响使用。",
-      "remote-hosts": "antigravity-unleash.goog"
-    },
-    {
-      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "Antigravity CLI（agy）特性开关与使用统计；历史中已被拒绝且未影响使用。",
-      "remote-hosts": "antigravity-unleash.goog"
-    },
-    {
-      "process": "identifier.2DC432GLL2/codex",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "Codex 的 Statsig 实验分组与事件上报（/v1/initialize、/v1/rgstr）；关闭 analytics 后仍会连接。",
-      "remote-hosts": "ab.chatgpt.com"
-    },
-    {
-      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "Codex 的 Statsig 实验分组与事件上报（/v1/initialize、/v1/rgstr）；关闭 analytics 后仍会连接。",
-      "remote-hosts": "ab.chatgpt.com"
-    },
-    {
-      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
-      "action": "deny",
-      "direction": "outgoing",
-      "disabled": false,
-      "priority": "high",
-      "notes": "Codex 的 Statsig 实验分组与事件上报（/v1/initialize、/v1/rgstr）；关闭 analytics 后仍会连接。",
-      "remote-hosts": "ab.chatgpt.com"
+      "remote-addresses": "199.165.136.0/24, 2606:b740:1::/48"
     }
   ]
 }

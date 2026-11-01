@@ -4,9 +4,9 @@
 
 ## 模式
 
-四个订阅组配合使用：`baseline` 放行已审阅目标并对其余目标 Ask；`deny-telemetry` 与 `deny-derp` 拒绝已确认的非必要目标；`default-deny` 把兜底从 Ask 改成 Deny，构成白名单出口。Little Snitch 在同优先级、同具体度下按 Deny > Allow > Ask 判定，所以启用 `default-deny` 后其“任意目标拒绝”压过 baseline 的“任意目标询问”，而任何精确主机、域名或端口范围放行仍更具体、仍然生效。停用 `default-deny` 即回到 Ask。
+四个订阅组配合使用：`baseline` 放行已审阅目标并对其余目标 Ask；`deny-telemetry` 与 `deny-derp` 拒绝已确认的非必要目标；`default-deny` 把兜底从 Ask 改成 Deny，构成白名单出口。Little Snitch 在同优先级、同具体度下按 Deny > Allow > Ask 判定，所以启用 `default-deny` 后其“任意目标拒绝”压过 baseline 的“任意目标询问”，而任何主机、域名或端口范围放行仍更具体、仍然生效。停用 `default-deny` 即回到 Ask。
 
-覆盖的程序身份：
+规则按类别分组：每个程序每个类别一条规则，类别内的主机或域名写成列表。Little Snitch 的 `process` 字段只能写一个程序，所以同一类别会按程序重复出现。
 
 | 程序 | 签名身份 |
 |---|---|
@@ -14,120 +14,65 @@
 | Rex Server | `identifier.AG92C3PT77/com.superlogical.rex.server` |
 | Claude Code | `identifier.Q6L2SF6YDW/com.anthropic.claude-code` |
 | Codex | `identifier.2DC432GLL2/codex` |
-| Orca | `identifier.6CX3WHS9HZ/com.stablyai.orca` |
+| Orca（含 Orca Terminal Host） | `identifier.6CX3WHS9HZ/com.stablyai.orca` |
 
-Rex Server 与 Orca 是终端宿主，在其中运行的 claude、codex、gh、curl、node、agy 等子进程由 Little Snitch 归属到它们。因此终端宿主上的放行对其内所有命令生效。
+Rex Server 与 Orca 是终端宿主，在其中运行的 claude、codex、gh、curl、node、agy 等子进程由 Little Snitch 归属到它们。因此终端宿主上的放行对其内所有命令生效。下文“四个程序”指 Rex Server、Claude Code、Codex、Orca。
 
-## 共享工作流
+## 放行：平台服务（精确主机，TCP 443）
 
-下列精确主机均允许 TCP 443，范围是 Rex Server、Claude Code、Codex、Orca 及归属于它们的子进程。
+平台的兄弟子域常有其他用途（如 `gist.github.com`、`ab.chatgpt.com`），因此只放行列出的主机。
 
-| 类别 | 精确主机 | 用途 |
+| 类别 | 程序 | 主机 |
 |---|---|---|
-| 开发 | `github.com` | Git 仓库克隆、拉取和推送 |
-| 开发 | `api.github.com` | gh、GitHub API 和规则仓库维护 |
-| 开发 | `raw.githubusercontent.com` | 仓库原始文件、配置和规则订阅 |
-| 开发 | `codeload.github.com` | GitHub 仓库归档下载（只读 CDN） |
-| 开发 | `objects.githubusercontent.com` | GitHub Release 资产下载（旧地址，只读 CDN） |
-| 开发 | `release-assets.githubusercontent.com` | GitHub Release 资产下载；Orca 自动更新与 Codex cask 使用 |
-| 依赖安装 | `registry.npmjs.org` | npm/pnpm 包元数据与依赖下载 |
-| 依赖安装 | `ghcr.io` | Homebrew 与 GitHub 包分发入口 |
-| 依赖安装 | `pkg-containers.githubusercontent.com` | GitHub Packages 实际下载存储 |
-| 依赖安装 | `formulae.brew.sh` | Homebrew 包目录与元数据 |
-| 工具维护 | `releases.openai.com` | 历史中重复出现的发行信息访问 |
-| 搜索 | `kagi.com` | 已使用的 Kagi 搜索工作流 |
-| 搜索 | `www.google.com` | Google 搜索；不放行整个 google.com（含 Forms、Apps Script、Drive） |
-| 搜索 | `www.bing.com` | Bing 搜索 |
-| 工具文档 | `www.superlogical.com` | Rex 厂商文档 |
-| 工具文档 | `www.onorca.dev` | Orca 文档工作流 |
-| 工具文档 | `core.telegram.org` | Telegram 开发文档 |
-| 学术 | `arxiv.org` | 论文阅读与检索；全机代理记录中的工作流候选 |
-| 学术 | `scholar.google.com` | 学术搜索；全机代理记录中的工作流候选 |
-| 学术 | `research.manchester.ac.uk` | 学术研究门户；代理记录不作为 agent 访问证明 |
-| 学术 | `ccs.yale.edu` | 学术研究机构网站；代理记录不作为 agent 访问证明 |
-| 学术检索 | `api.openalex.org` | OpenAlex 文献与引用检索 |
-| 学术检索 | `export.arxiv.org` | arXiv API |
-| 学术检索 | `api.unpaywall.org` | 开放获取版本查询 |
-| 学术检索 | `core.ac.uk` | CORE 开放获取全文聚合 |
-| 学术检索 | `philpapers.org` | PhilPapers 理论与哲学文献索引 |
-| 学术检索 | `plato.stanford.edu` | 斯坦福哲学百科 |
-| 学术检索 | `books.google.com` | 图书检索与预览 |
-| 学术检索 | `xueshu.baidu.com` | 百度学术；不放行整个 baidu.com（含百度网盘） |
-| 学术检索 | `book.douban.com` | 豆瓣读书图书信息 |
-| 学术检索 | `search.douban.com` | 豆瓣读书检索 |
-| 学术检索 | `www.researchgate.net` | ResearchGate 论文页面；上传需登录账号 |
-| 学术检索 | `pubmed.ncbi.nlm.nih.gov` | PubMed 摘要检索 |
-| 学术检索 | `pmc.ncbi.nlm.nih.gov` | PubMed Central 开放全文 |
-| 学术出版 | `muse.jhu.edu` | Project MUSE |
-| 学术出版 | `papers.ssrn.com` | SSRN 预印本 |
-| 学术出版 | `journals.sagepub.com` | SAGE 期刊 |
-| 学术出版 | `onlinelibrary.wiley.com` | Wiley 期刊 |
-| 学术出版 | `www.cambridge.org` | Cambridge Core |
-| 学术出版 | `academic.oup.com` | Oxford Academic |
-| 学术出版 | `www.sciencedirect.com` | Elsevier ScienceDirect |
-| 学术出版 | `www.journals.uchicago.edu` | University of Chicago Press 期刊 |
-| 学术出版 | `read.dukeupress.edu` | Duke University Press |
-| 学术出版 | `www.annualreviews.org` | Annual Reviews |
+| GitHub | 四个程序 | `github.com`、`api.github.com`、`raw.githubusercontent.com`、`codeload.github.com`、`objects.githubusercontent.com`、`release-assets.githubusercontent.com` |
+| 包管理 | 四个程序 | `registry.npmjs.org`、`ghcr.io`、`pkg-containers.githubusercontent.com`、`formulae.brew.sh` |
+| Anthropic | Claude、Rex Server、Orca | `api.anthropic.com`、`mcp-proxy.anthropic.com`、`platform.claude.com`、`claude.ai`、`downloads.claude.ai` |
+| OpenAI | Codex、Rex Server、Orca | `chatgpt.com`、`auth.openai.com` |
+| 终端工具服务 | Rex Server、Orca | `daily-cloudcode-pa.googleapis.com`、`aicode.googleapis.com`、`oauth2.googleapis.com`、`www.googleapis.com`（Antigravity CLI）；`api.linear.app`（Linear） |
+| Orca 服务 | Orca | `onorca.dev`、`login.onorca.dev`、`push.onorca.dev` |
+| Rex 内置 Tailscale 与证书 | Rex Server | `controlplane.tailscale.com`、`acme-v02.api.letsencrypt.org` |
 
-页面、PDF 与 API 分散在多个子域的只读站点按域名放行，含域名本身及全部子域，TCP 443 与 80。80 端口只为兼容 `http://dx.doi.org` 这类会跳转到 HTTPS 的旧链接。
+`www.googleapis.com` 是 Google 共享 API 入口，放行面较大，因 agy 需要而保留。Orca 的 `share.onorca.dev`（分享上传）、`relay.onorca.dev`、`connector.onorca.dev` 在历史中未出现，未放行。
 
-| 类别 | 域名 | 用途 |
+## 放行：内容站点（域名及子域，TCP 443）
+
+只写到具体主机的条目（如 `scholar.google.com`）只覆盖该主机及其自身子域。
+
+| 类别 | 程序 | 域名 |
 |---|---|---|
-| 学术检索 | `doi.org` | DOI 解析，含 dx.doi.org |
-| 学术检索 | `crossref.org` | Crossref 元数据 API 与检索 |
-| 学术检索 | `semanticscholar.org` | Semantic Scholar 页面、API 与 PDF |
-| 学术检索 | `cnki.net` | 中国知网 |
-| 学术检索 | `ncpssd.cn` | 国家哲学社会科学文献中心 |
-| 学术检索 | `anthroencyclopedia.com` | Open Encyclopedia of Anthropology |
-| 学术出版 | `jstor.org` | JSTOR |
-| 学术出版 | `springer.com` | Springer |
-| 学术出版 | `tandfonline.com` | Taylor & Francis 期刊 |
-| 搜索 | `duckduckgo.com` | DuckDuckGo 搜索，含 html/lite 版本 |
+| 搜索 | 四个程序 | `kagi.com`、`duckduckgo.com`、`www.google.com`、`www.bing.com` |
+| 文档与工具 | 四个程序 | `code.claude.com`、`developers.openai.com`、`releases.openai.com`、`www.superlogical.com`、`www.onorca.dev`、`core.telegram.org` |
+| 学术检索与参考 | 四个程序 | `doi.org`、`crossref.org`、`openalex.org`、`semanticscholar.org`、`arxiv.org`、`scholar.google.com`、`books.google.com`、`api.unpaywall.org`、`core.ac.uk`、`philpapers.org`、`plato.stanford.edu`、`anthroencyclopedia.com`、`pubmed.ncbi.nlm.nih.gov`、`pmc.ncbi.nlm.nih.gov`、`www.researchgate.net`、`research.manchester.ac.uk`、`ccs.yale.edu` |
+| 学术出版商 | 四个程序 | `jstor.org`、`muse.jhu.edu`、`ssrn.com`、`sagepub.com`、`tandfonline.com`、`wiley.com`、`cambridge.org`、`oup.com`、`springer.com`、`sciencedirect.com`、`journals.uchicago.edu`、`dukeupress.edu`、`annualreviews.org` |
+| 中文学术与图书 | 四个程序 | `cnki.net`、`ncpssd.cn`、`xueshu.baidu.com`、`book.douban.com`、`search.douban.com` |
 
-“学术”四项来自全机代理记录；其余学术与搜索项来自 Orca 既有本地白名单和学术工作需要，不声称均已由 agent 访问。综合平台只放行具体主机：`google.com`、`googleapis.com`、`googleusercontent.com` 含 Forms、Apps Script、云存储桶与用户内容，`baidu.com` 含网盘，`douban.com` 含社区发帖，均可作为外传通道，不按域名放行。允许匿名或第三方上传的平台（OSF、Zenodo、Wikipedia）、机构登录入口和出版社 PDF 的第三方 CDN 没有纳入；DOI 跳转到名单外出版社时会被拒绝，需要时逐个补充。GitHub、包仓库与搜索服务的放行包含该主机上的读写能力，不能限定 URL、仓库、包或 HTTP 方法。
+综合平台只放行具体主机：`google.com`、`googleapis.com`、`googleusercontent.com` 含 Forms、Apps Script、云存储桶与用户内容，`baidu.com` 含网盘，`douban.com` 含社区发帖，均可作为外传通道。允许匿名或第三方上传的平台（OSF、Zenodo、Wikipedia）、机构登录入口和出版社 PDF 的第三方 CDN 没有纳入。只开放 443：`http://` 旧链接（如 `http://dx.doi.org`）需改用 `https://`；Claude 的 WebFetch 会自动升级。GitHub、包仓库、Linear 与搜索服务的放行包含该主机上的读写能力，不能限定 URL、仓库、包或 HTTP 方法。
 
-## 模型、账号与程序服务
+## 放行：网络与远程访问
 
-均为精确主机 TCP 443。
-
-| 程序范围 | 精确主机 | 用途 |
-|---|---|---|
-| Claude、Rex Server、Orca | `api.anthropic.com` | Claude API、WebFetch 域名安全检查、特性开关 |
-| Claude、Rex Server、Orca | `mcp-proxy.anthropic.com` | Claude MCP 连接器 |
-| Claude、Rex Server、Orca | `platform.claude.com` | 登录、OAuth token 交换与刷新 |
-| Claude、Rex Server、Orca | `claude.ai` | claude.ai 账号认证 |
-| Claude、Rex Server、Orca | `downloads.claude.ai` | Claude Code 下载与版本检查；Homebrew cask 从此下载 |
-| Claude、Rex Server、Orca | `code.claude.com` | Claude Code 官方文档查询 |
-| Codex、Rex Server、Orca | `chatgpt.com` | Codex ChatGPT 登录模式的模型服务 |
-| Codex、Rex Server、Orca | `auth.openai.com` | Codex 登录与 token 刷新；日志未出现，按登录流程预置 |
-| Rex Server、Orca | `daily-cloudcode-pa.googleapis.com` | Antigravity CLI（agy）模型服务 |
-| Rex Server、Orca | `aicode.googleapis.com` | agy 服务接口 |
-| Rex Server、Orca | `oauth2.googleapis.com` | agy Google 登录 token 刷新 |
-| Rex Server、Orca | `www.googleapis.com` | agy 用户信息；Google 共享 API 入口，放行面较大 |
-| Orca | `onorca.dev` | 更新说明与插件停用名单 |
-| Orca | `login.onorca.dev` | Orca 账号登录 |
-| Orca | `push.onorca.dev` | Orca 推送通知 |
-| Rex Server | `acme-v02.api.letsencrypt.org` | 内置 HTTPS 证书续期 |
-
-Orca 的 `share.onorca.dev`（分享上传）、`relay.onorca.dev`、`connector.onorca.dev` 在历史中未出现，未放行。
-
-## 网络与远程访问
-
-- Rex 客户端、Rex Server、Orca 对整个 `ts.net` 及其子域放行，任意端口。`ts.net` 也包含其他 tailnet 公开的 Funnel 地址；如需更严格，可在本地改为只放行自己的 tailnet 子域。
-- Rex Server 放行 UDP 远端端口 1024-65535，用于内置 Tailscale 与对端设备直连、路由器端口映射和局域网发现。官方 DERP 已拒绝，直连是唯一通路。范围不含 53 和 443，所以 DNS 与 QUIC 仍走兜底拒绝；DERP 与 STUN 节点由 `deny-derp` 的精确地址规则优先拒绝。
-- Tailscale 协调仅放行 `controlplane.tailscale.com` TCP 80/443，并补官方协调地址段 `192.200.0.0/24` 与 `2606:b740:49::/48` 的相同端口，覆盖只显示 IP 的记录。80 端口用于官方支持的加密协调传输。
+- Rex 客户端、Rex Server、Orca 对整个 `ts.net` 及其子域放行，任意端口。`ts.net` 也包含其他 tailnet 公开的 Funnel 地址；如需更严格，可在本地改为只放行自己的 tailnet 子域。直接连 tailnet IP（`100.x`）不匹配此规则。
+- Rex Server 放行 UDP 远端端口 1024-65535，用于内置 Tailscale 与对端设备直连、路由器端口映射和局域网发现。官方 DERP 已拒绝，直连是唯一通路。范围不含 53 和 443，DNS 与 QUIC 仍走兜底；DERP 与 STUN 节点由 `deny-derp` 的精确地址规则优先拒绝。
+- Tailscale 协调另放行 `controlplane.tailscale.com` TCP 80，以及官方协调地址段 `192.200.0.0/24`、`2606:b740:49::/48` 的 TCP 80/443，覆盖只显示 IP 的记录。80 端口用于官方支持的加密协调传输。
 
 ## 自动拒绝
 
-`deny-telemetry.lsrules` 拒绝 Tailscale 日志、Claude Datadog（遥测与错误报告两个主机）、Homebrew 统计，Codex 的 `ab.chatgpt.com`（Statsig 实验分组与事件上报），以及 agy 的 `play.googleapis.com` 使用统计与 `antigravity-unleash.goog` 特性开关；补齐 Rex Server 父应用归属和 Tailscale 官方日志地址段。另纳入不属于常规工作流的一次性诊断：`ipinfo.io` 公网 IP 查询；`sgp-ping.vultr.com`、`lon-gb-ping.vultr.com`、`speedtest.singapore.linode.com`、`speedtest.london.linode.com` 的 ICMP；`dynamodb.ap-southeast-1.amazonaws.com` 与 `dynamodb.ap-northeast-1.amazonaws.com` 的 TCP 80 HTTP 探测。Orca 归属的同类连接一并拒绝。这些规则在白名单模式下与兜底拒绝重叠；保留它们是为了停用 `default-deny` 回到 Ask 时仍然静默拒绝。
+`deny-telemetry.lsrules`，四个程序：
 
-`deny-derp.lsrules` 继续拒绝现行官方 DERP 快照内端点；另拒绝 Tailscale 客户端内置的整份 bootstrap DNS 回退名单（2026-11-01 快照，24 个节点的主机名与 IPv4/IPv6 地址，含 `derp12c.tailscale.com`）。这些节点不在现行 DERP map 中，客户端在常规 DNS 失败时用它们解析协调服务器；2026-11-01 曾观测到 Rex Server 连续尝试其中 14 个。拒绝后，系统 DNS 正常时不受影响。地址以列表形式发布：Little Snitch 中较短的列表更具体，本地针对同一 IP 的单条放行会胜过它，需删除。
+| 类别 | 目标 |
+|---|---|
+| 遥测与特性开关 | `http-intake.logs.us5.datadoghq.com`、`browser-intake-us5-datadoghq.com`（Claude）、`analytics.brew.sh`（Homebrew）、`ab.chatgpt.com`（Codex Statsig）、`play.googleapis.com`、`antigravity-unleash.goog`（agy）、`log.tailscale.com`、`ipinfo.io` |
+| 一次性 ICMP 测速 | `sgp-ping.vultr.com`、`lon-gb-ping.vultr.com`、`speedtest.singapore.linode.com`、`speedtest.london.linode.com` |
+| 一次性 HTTP 探测（仅 TCP 80） | `dynamodb.ap-southeast-1.amazonaws.com`、`dynamodb.ap-northeast-1.amazonaws.com` |
 
-`default-deny.lsrules` 对上述五个程序身份拒绝所有未被更具体规则放行的出站连接。按 2026-10-30 至 10-31 的历史回放，启用后新增拒绝的只有：Telegram 地址的 HTTP 探测与 ping/traceroute、`storage.googleapis.com`（Claude `/plugin` 安装统计）、`lh3.googleusercontent.com`（Google 头像）及对路由器的 ping。
+Rex Server 另拒绝 Tailscale 官方日志地址段 `199.165.136.0/24`、`2606:b740:1::/48`。这些规则在白名单模式下与兜底拒绝重叠；保留它们是为了停用 `default-deny` 回到 Ask 时仍然静默拒绝。
+
+`deny-derp.lsrules`，Rex 客户端、Rex Server、Claude、Codex：一条地址列表、一条主机名列表，合并官方 DERP 快照（2026-10-31）与 Tailscale 客户端内置的 bootstrap DNS 回退名单（2026-11-01 快照，24 个节点，含 `derp12c.tailscale.com`）。回退节点不在现行 DERP map 中，客户端在常规 DNS 失败时用它们解析协调服务器；2026-11-01 曾观测到 Rex Server 连续尝试其中 14 个。拒绝后，系统 DNS 正常时不受影响。
+
+`default-deny.lsrules` 对五个程序身份拒绝所有未被更具体规则放行的出站连接。按 2026-10-30 至 10-31 的历史回放，启用后新增拒绝的只有：Telegram 地址的 HTTP 探测与 ping/traceroute、`storage.googleapis.com`（Claude `/plugin` 安装统计）、`lh3.googleusercontent.com`（Google 头像）及对路由器的 ping。
 
 ## 本地例外
 
-家庭局域网与个人设备例外保留在本地，不发布。发布规则均为高优先级，Little Snitch 先比较优先级再比较具体度：本地例外若不是高优先级，会被 `default-deny` 覆盖。启用白名单模式前，应把需要保留的本地例外改为高优先级。
+家庭局域网、个人设备、个人服务与个人用途站点保留在本地，不发布。发布规则均为高优先级，Little Snitch 先比较优先级再比较具体度：本地例外若不是高优先级，会被 `default-deny` 覆盖。启用白名单模式前，应把需要保留的本地例外改为高优先级。列表形式的拒绝规则不如本地单条规则具体，与订阅冲突的本地单条放行需要删除。
 
 ## 已知缺口
 
@@ -138,16 +83,18 @@ Orca 的 `share.onorca.dev`（分享上传）、`relay.onorca.dev`、`connector.
 ## 迭代方法
 
 1. 用新的 Little Snitch CSV 统计目标、进程归属、协议端口、连接与拒绝计数、收发字节和活跃小时桶。
-2. 对照当前订阅，审查白名单模式下被兜底拒绝的重复目标；同一工具链使用这一清单统一维护。
-3. 为新增规则填写用途、范围和证据，保留未确认项。确认非必要的独立遥测目标加入 Deny。
-4. 在原始历史上比较修改前后的覆盖情况，再更新订阅。覆盖估算不代表真实弹窗减少比例，也不能证明本机已应用。
+2. 对照当前订阅，审查落到 Ask 或兜底拒绝的重复目标，以及弹窗新增的本地规则。
+3. 新目标归入已有类别的列表；确实无法归类时才新建类别。填写用途、范围和证据，确认非必要的独立遥测目标加入拒绝列表。
+4. 在原始历史和规则中出现的全部目标上比较修改前后的判定，再更新订阅。覆盖估算不代表真实弹窗减少比例，也不能证明本机已应用。
 5. 下次导出时复核被拒绝计数和工作流是否受影响。应用可能继续重试，Deny 不等于停止发起连接。
 
 ## 依据
 
 - [Little Snitch 规则与优先级](https://help.obdev.at/littlesnitch6/concepts-rules)
+- [Little Snitch 规则文件格式](https://help.obdev.at/littlesnitch6/adv-lsrules-file-format)
 - [Claude 官方网络要求](https://code.claude.com/docs/en/network-config)
 - [Rex 网络用途](https://www.superlogical.com/rex/docs/reference/privacy)
 - [Homebrew 分发与防火墙入口](https://docs.brew.sh/Homebrew-Package-Policies)
 - [Tailscale 协调及日志网段](https://tailscale.com/kb/1082/firewall-ports)
 - [Tailscale 内置 DNS 回退名单](https://github.com/tailscale/tailscale/blob/main/net/dnsfallback/dns-fallback-servers.json)
+- [Codex Statsig 连接](https://github.com/openai/codex/issues/12188)

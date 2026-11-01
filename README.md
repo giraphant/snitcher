@@ -14,7 +14,7 @@ Rex、Claude Code、Codex、Orca 的 Little Snitch 规则订阅，按白名单�
 https://raw.githubusercontent.com/giraphant/snitcher/main/rules/baseline.lsrules
 ```
 
-模型与账号服务、Claude MCP、GitHub、npm/Homebrew、Kagi、已审阅工具文档、学术检索与出版站点按工作流放行，主要限精确主机 TCP 443。Rex 客户端、Rex Server 与 Orca 对整个 `ts.net` 及其子域放行；Rex Server 另放行内置 Tailscale 直连所需的高位 UDP；Tailscale 协调按官方要求补 TCP 80 与官方协调地址段。未匹配目标 Ask。
+按类别分组放行，每个程序每类一条规则：GitHub、包管理、Anthropic、OpenAI、终端工具服务、Orca 服务等平台限精确主机，搜索、文档、学术检索、学术出版商、中文学术等内容站点按域名，均为 TCP 443。Rex 客户端、Rex Server 与 Orca 对整个 `ts.net` 及其子域放行；Rex Server 另放行内置 Tailscale 直连所需的高位 UDP；Tailscale 协调按官方要求补 TCP 80 与官方协调地址段。未匹配目标 Ask。
 
 完整主机、进程范围、理由和待确认类别见 [规则维护清单](RULES.md)。个人局域网和设备地址留在本地。
 
