@@ -1,0 +1,51 @@
+{
+  "name": "Snitcher — Default Deny",
+  "description": "Allowlist mode. Denies every outgoing destination for Rex, Rex Server, Claude Code, Codex and Orca unless a more specific rule allows it. Requires the baseline group and its allow rules to be enabled first. Disable this group to fall back to Ask.",
+  "rules": [
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "白名单模式兜底拒绝。同优先级下，任何更具体的放行规则都会胜出；停用本组即回到询问。",
+      "remote": "any"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "白名单模式兜底拒绝。同优先级下，任何更具体的放行规则都会胜出；停用本组即回到询问。",
+      "remote": "any"
+    },
+    {
+      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "白名单模式兜底拒绝。同优先级下，任何更具体的放行规则都会胜出；停用本组即回到询问。",
+      "remote": "any"
+    },
+    {
+      "process": "identifier.2DC432GLL2/codex",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "白名单模式兜底拒绝。同优先级下，任何更具体的放行规则都会胜出；停用本组即回到询问。",
+      "remote": "any"
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "白名单模式兜底拒绝。同优先级下，任何更具体的放行规则都会胜出；停用本组即回到询问。",
+      "remote": "any"
+    }
+  ]
+}

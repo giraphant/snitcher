@@ -1,6 +1,6 @@
 {
   "name": "Snitcher — Block Optional Telemetry and Probes",
-  "description": "Scoped optional telemetry, IP lookup and observed one-off diagnostic probes. Does not prevent application retries. Disable an individual rule or this group for deliberate diagnostics.",
+  "description": "Scoped optional telemetry, IP lookup and observed one-off diagnostic probes for Rex, Claude Code, Codex and Orca. Does not prevent application retries. Disable an individual rule or this group for deliberate diagnostics.",
   "rules": [
     {
       "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
@@ -295,6 +295,158 @@
       "remote-hosts": "dynamodb.ap-northeast-1.amazonaws.com",
       "protocol": "tcp",
       "ports": "80"
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "notes": "Claude 的 Datadog 日志接收端；按目的主机拒绝，保留应用其他功能",
+      "remote-hosts": "http-intake.logs.us5.datadoghq.com",
+      "priority": "high"
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "已识别的可选遥测；同时覆盖独立进程与 Rex Server 父应用归属。",
+      "remote-hosts": "analytics.brew.sh"
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "默认不需要的公网 IP 信息查询；排障确需使用时可停用这条规则。",
+      "remote-hosts": "ipinfo.io"
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
+      "remote-hosts": "sgp-ping.vultr.com",
+      "protocol": "icmp"
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
+      "remote-hosts": "lon-gb-ping.vultr.com",
+      "protocol": "icmp"
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
+      "remote-hosts": "speedtest.singapore.linode.com",
+      "protocol": "icmp"
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的一次性 ICMP 网络测速；不属于常规模型、开发或学术工作流。",
+      "remote-hosts": "speedtest.london.linode.com",
+      "protocol": "icmp"
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的 TCP 80 HTTP 连通性探测；仅拒绝该端口，未来真正的 HTTPS API 使用仍按未知目标询问。",
+      "remote-hosts": "dynamodb.ap-southeast-1.amazonaws.com",
+      "protocol": "tcp",
+      "ports": "80"
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "历史中的 TCP 80 HTTP 连通性探测；仅拒绝该端口，未来真正的 HTTPS API 使用仍按未知目标询问。",
+      "remote-hosts": "dynamodb.ap-northeast-1.amazonaws.com",
+      "protocol": "tcp",
+      "ports": "80"
+    },
+    {
+      "process": "identifier.Q6L2SF6YDW/com.anthropic.claude-code",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Claude Code 可选错误报告；官方说明可关闭。",
+      "remote-hosts": "browser-intake-us5-datadoghq.com"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Claude Code 可选错误报告；官方说明可关闭。",
+      "remote-hosts": "browser-intake-us5-datadoghq.com"
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Claude Code 可选错误报告；官方说明可关闭。",
+      "remote-hosts": "browser-intake-us5-datadoghq.com"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Antigravity CLI（agy）Clearcut 使用统计。",
+      "remote-hosts": "play.googleapis.com"
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Antigravity CLI（agy）Clearcut 使用统计。",
+      "remote-hosts": "play.googleapis.com"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Antigravity CLI（agy）特性开关与使用统计；历史中已被拒绝且未影响使用。",
+      "remote-hosts": "antigravity-unleash.goog"
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Antigravity CLI（agy）特性开关与使用统计；历史中已被拒绝且未影响使用。",
+      "remote-hosts": "antigravity-unleash.goog"
     }
   ]
 }
