@@ -8,7 +8,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "GitHub：Git 仓库、gh/API、原始文件与 Release 下载。精确主机 TCP 443。2026-11-01 审阅。",
+      "notes": "GitHub：Git 仓库、gh/API、原始文件与 Release 下载。精确主机 TCP 443。2026-11-03 审阅。",
       "remote-hosts": [
         "github.com",
         "api.github.com",
@@ -26,7 +26,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "GitHub：Git 仓库、gh/API、原始文件与 Release 下载。精确主机 TCP 443。2026-11-01 审阅。",
+      "notes": "GitHub：Git 仓库、gh/API、原始文件与 Release 下载。精确主机 TCP 443。2026-11-03 审阅。",
       "remote-hosts": [
         "github.com",
         "api.github.com",
@@ -44,7 +44,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "GitHub：Git 仓库、gh/API、原始文件与 Release 下载。精确主机 TCP 443。2026-11-01 审阅。",
+      "notes": "GitHub：Git 仓库、gh/API、原始文件与 Release 下载。精确主机 TCP 443。2026-11-03 审阅。",
       "remote-hosts": [
         "github.com",
         "api.github.com",
@@ -62,7 +62,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "GitHub：Git 仓库、gh/API、原始文件与 Release 下载。精确主机 TCP 443。2026-11-01 审阅。",
+      "notes": "GitHub：Git 仓库、gh/API、原始文件与 Release 下载。精确主机 TCP 443。2026-11-03 审阅。",
       "remote-hosts": [
         "github.com",
         "api.github.com",
@@ -80,7 +80,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "包管理：npm/pnpm 与 Homebrew 元数据和下载。精确主机 TCP 443。2026-11-01 审阅。",
+      "notes": "包管理：npm/pnpm 与 Homebrew 元数据和下载。精确主机 TCP 443。2026-11-03 审阅。",
       "remote-hosts": [
         "registry.npmjs.org",
         "ghcr.io",
@@ -96,7 +96,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "包管理：npm/pnpm 与 Homebrew 元数据和下载。精确主机 TCP 443。2026-11-01 审阅。",
+      "notes": "包管理：npm/pnpm 与 Homebrew 元数据和下载。精确主机 TCP 443。2026-11-03 审阅。",
       "remote-hosts": [
         "registry.npmjs.org",
         "ghcr.io",
@@ -112,7 +112,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "包管理：npm/pnpm 与 Homebrew 元数据和下载。精确主机 TCP 443。2026-11-01 审阅。",
+      "notes": "包管理：npm/pnpm 与 Homebrew 元数据和下载。精确主机 TCP 443。2026-11-03 审阅。",
       "remote-hosts": [
         "registry.npmjs.org",
         "ghcr.io",
@@ -128,7 +128,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "包管理：npm/pnpm 与 Homebrew 元数据和下载。精确主机 TCP 443。2026-11-01 审阅。",
+      "notes": "包管理：npm/pnpm 与 Homebrew 元数据和下载。精确主机 TCP 443。2026-11-03 审阅。",
       "remote-hosts": [
         "registry.npmjs.org",
         "ghcr.io",
@@ -144,7 +144,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "Anthropic：Claude API、MCP 连接器、登录与 token 刷新、Claude Code 下载。精确主机 TCP 443。2026-11-01 审阅。",
+      "notes": "Anthropic：Claude API、MCP 连接器、登录与 token 刷新、Claude Code 下载。精确主机 TCP 443。2026-11-03 审阅。",
       "remote-hosts": [
         "api.anthropic.com",
         "mcp-proxy.anthropic.com",
@@ -161,7 +161,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "Anthropic：Claude API、MCP 连接器、登录与 token 刷新、Claude Code 下载。精确主机 TCP 443。2026-11-01 审阅。",
+      "notes": "Anthropic：Claude API、MCP 连接器、登录与 token 刷新、Claude Code 下载。精确主机 TCP 443。2026-11-03 审阅。",
       "remote-hosts": [
         "api.anthropic.com",
         "mcp-proxy.anthropic.com",
@@ -178,7 +178,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "Anthropic：Claude API、MCP 连接器、登录与 token 刷新、Claude Code 下载。精确主机 TCP 443。2026-11-01 审阅。",
+      "notes": "Anthropic：Claude API、MCP 连接器、登录与 token 刷新、Claude Code 下载。精确主机 TCP 443。2026-11-03 审阅。",
       "remote-hosts": [
         "api.anthropic.com",
         "mcp-proxy.anthropic.com",
@@ -195,10 +195,11 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "OpenAI：Codex ChatGPT 登录模式的模型服务与 token 刷新。精确主机 TCP 443。2026-11-01 审阅。",
+      "notes": "OpenAI：Codex ChatGPT 登录模式、OpenAI API 与 token 刷新。精确主机 TCP 443。2026-11-03 审阅。",
       "remote-hosts": [
         "chatgpt.com",
-        "auth.openai.com"
+        "auth.openai.com",
+        "api.openai.com"
       ],
       "protocol": "tcp",
       "ports": "443"
@@ -209,10 +210,11 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "OpenAI：Codex ChatGPT 登录模式的模型服务与 token 刷新。精确主机 TCP 443。2026-11-01 审阅。",
+      "notes": "OpenAI：Codex ChatGPT 登录模式、OpenAI API 与 token 刷新。精确主机 TCP 443。2026-11-03 审阅。",
       "remote-hosts": [
         "chatgpt.com",
-        "auth.openai.com"
+        "auth.openai.com",
+        "api.openai.com"
       ],
       "protocol": "tcp",
       "ports": "443"
@@ -223,10 +225,11 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "OpenAI：Codex ChatGPT 登录模式的模型服务与 token 刷新。精确主机 TCP 443。2026-11-01 审阅。",
+      "notes": "OpenAI：Codex ChatGPT 登录模式、OpenAI API 与 token 刷新。精确主机 TCP 443。2026-11-03 审阅。",
       "remote-hosts": [
         "chatgpt.com",
-        "auth.openai.com"
+        "auth.openai.com",
+        "api.openai.com"
       ],
       "protocol": "tcp",
       "ports": "443"
@@ -237,7 +240,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "终端工具服务：Antigravity CLI（agy）模型、登录与用户信息；Linear API。精确主机 TCP 443。2026-11-01 审阅。",
+      "notes": "终端工具服务：Antigravity CLI（agy）模型、登录与用户信息；Linear API。精确主机 TCP 443。2026-11-03 审阅。",
       "remote-hosts": [
         "daily-cloudcode-pa.googleapis.com",
         "aicode.googleapis.com",
@@ -254,7 +257,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "终端工具服务：Antigravity CLI（agy）模型、登录与用户信息；Linear API。精确主机 TCP 443。2026-11-01 审阅。",
+      "notes": "终端工具服务：Antigravity CLI（agy）模型、登录与用户信息；Linear API。精确主机 TCP 443。2026-11-03 审阅。",
       "remote-hosts": [
         "daily-cloudcode-pa.googleapis.com",
         "aicode.googleapis.com",
@@ -271,7 +274,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "Orca 服务：Orca 账号登录、推送、更新说明与插件停用名单。精确主机 TCP 443。2026-11-01 审阅。",
+      "notes": "Orca 服务：Orca 账号登录、推送、更新说明与插件停用名单。精确主机 TCP 443。2026-11-03 审阅。",
       "remote-hosts": [
         "onorca.dev",
         "login.onorca.dev",
@@ -286,7 +289,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "Rex 内置 Tailscale 与证书：Tailscale 协调服务器与 Let's Encrypt 证书续期。精确主机 TCP 443。2026-11-01 审阅。",
+      "notes": "Rex 内置 Tailscale 与证书：Tailscale 协调服务器与 Let's Encrypt 证书续期。精确主机 TCP 443。2026-11-03 审阅。",
       "remote-hosts": [
         "controlplane.tailscale.com",
         "acme-v02.api.letsencrypt.org"
@@ -300,7 +303,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "搜索：网页搜索；Google、Bing 只限搜索主机。域名及子域 TCP 443。2026-11-01 审阅。",
+      "notes": "搜索：网页搜索；Google、Bing 只限搜索主机。域名及子域 TCP 443。2026-11-03 审阅。",
       "remote-domains": [
         "kagi.com",
         "duckduckgo.com",
@@ -316,7 +319,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "搜索：网页搜索；Google、Bing 只限搜索主机。域名及子域 TCP 443。2026-11-01 审阅。",
+      "notes": "搜索：网页搜索；Google、Bing 只限搜索主机。域名及子域 TCP 443。2026-11-03 审阅。",
       "remote-domains": [
         "kagi.com",
         "duckduckgo.com",
@@ -332,7 +335,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "搜索：网页搜索；Google、Bing 只限搜索主机。域名及子域 TCP 443。2026-11-01 审阅。",
+      "notes": "搜索：网页搜索；Google、Bing 只限搜索主机。域名及子域 TCP 443。2026-11-03 审阅。",
       "remote-domains": [
         "kagi.com",
         "duckduckgo.com",
@@ -348,7 +351,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "搜索：网页搜索；Google、Bing 只限搜索主机。域名及子域 TCP 443。2026-11-01 审阅。",
+      "notes": "搜索：网页搜索；Google、Bing 只限搜索主机。域名及子域 TCP 443。2026-11-03 审阅。",
       "remote-domains": [
         "kagi.com",
         "duckduckgo.com",
@@ -364,14 +367,15 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "文档与工具：工具厂商文档与发行信息。域名及子域 TCP 443。2026-11-01 审阅。",
+      "notes": "文档与工具：工具厂商文档与发行信息。域名及子域 TCP 443。2026-11-03 审阅。",
       "remote-domains": [
         "code.claude.com",
         "developers.openai.com",
         "releases.openai.com",
         "www.superlogical.com",
         "www.onorca.dev",
-        "core.telegram.org"
+        "core.telegram.org",
+        "pi.dev"
       ],
       "protocol": "tcp",
       "ports": "443"
@@ -382,14 +386,15 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "文档与工具：工具厂商文档与发行信息。域名及子域 TCP 443。2026-11-01 审阅。",
+      "notes": "文档与工具：工具厂商文档与发行信息。域名及子域 TCP 443。2026-11-03 审阅。",
       "remote-domains": [
         "code.claude.com",
         "developers.openai.com",
         "releases.openai.com",
         "www.superlogical.com",
         "www.onorca.dev",
-        "core.telegram.org"
+        "core.telegram.org",
+        "pi.dev"
       ],
       "protocol": "tcp",
       "ports": "443"
@@ -400,14 +405,15 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "文档与工具：工具厂商文档与发行信息。域名及子域 TCP 443。2026-11-01 审阅。",
+      "notes": "文档与工具：工具厂商文档与发行信息。域名及子域 TCP 443。2026-11-03 审阅。",
       "remote-domains": [
         "code.claude.com",
         "developers.openai.com",
         "releases.openai.com",
         "www.superlogical.com",
         "www.onorca.dev",
-        "core.telegram.org"
+        "core.telegram.org",
+        "pi.dev"
       ],
       "protocol": "tcp",
       "ports": "443"
@@ -418,14 +424,15 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "文档与工具：工具厂商文档与发行信息。域名及子域 TCP 443。2026-11-01 审阅。",
+      "notes": "文档与工具：工具厂商文档与发行信息。域名及子域 TCP 443。2026-11-03 审阅。",
       "remote-domains": [
         "code.claude.com",
         "developers.openai.com",
         "releases.openai.com",
         "www.superlogical.com",
         "www.onorca.dev",
-        "core.telegram.org"
+        "core.telegram.org",
+        "pi.dev"
       ],
       "protocol": "tcp",
       "ports": "443"
@@ -436,7 +443,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "学术检索与参考：文献索引、元数据 API、预印本、开放获取与参考工具书。域名及子域 TCP 443。2026-11-01 审阅。",
+      "notes": "学术检索与参考：文献索引、元数据 API、预印本、开放获取与参考工具书。域名及子域 TCP 443。2026-11-03 审阅。",
       "remote-domains": [
         "doi.org",
         "crossref.org",
@@ -454,7 +461,8 @@
         "pmc.ncbi.nlm.nih.gov",
         "www.researchgate.net",
         "research.manchester.ac.uk",
-        "ccs.yale.edu"
+        "ccs.yale.edu",
+        "britsoc.co.uk"
       ],
       "protocol": "tcp",
       "ports": "443"
@@ -465,7 +473,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "学术检索与参考：文献索引、元数据 API、预印本、开放获取与参考工具书。域名及子域 TCP 443。2026-11-01 审阅。",
+      "notes": "学术检索与参考：文献索引、元数据 API、预印本、开放获取与参考工具书。域名及子域 TCP 443。2026-11-03 审阅。",
       "remote-domains": [
         "doi.org",
         "crossref.org",
@@ -483,7 +491,8 @@
         "pmc.ncbi.nlm.nih.gov",
         "www.researchgate.net",
         "research.manchester.ac.uk",
-        "ccs.yale.edu"
+        "ccs.yale.edu",
+        "britsoc.co.uk"
       ],
       "protocol": "tcp",
       "ports": "443"
@@ -494,7 +503,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "学术检索与参考：文献索引、元数据 API、预印本、开放获取与参考工具书。域名及子域 TCP 443。2026-11-01 审阅。",
+      "notes": "学术检索与参考：文献索引、元数据 API、预印本、开放获取与参考工具书。域名及子域 TCP 443。2026-11-03 审阅。",
       "remote-domains": [
         "doi.org",
         "crossref.org",
@@ -512,7 +521,8 @@
         "pmc.ncbi.nlm.nih.gov",
         "www.researchgate.net",
         "research.manchester.ac.uk",
-        "ccs.yale.edu"
+        "ccs.yale.edu",
+        "britsoc.co.uk"
       ],
       "protocol": "tcp",
       "ports": "443"
@@ -523,7 +533,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "学术检索与参考：文献索引、元数据 API、预印本、开放获取与参考工具书。域名及子域 TCP 443。2026-11-01 审阅。",
+      "notes": "学术检索与参考：文献索引、元数据 API、预印本、开放获取与参考工具书。域名及子域 TCP 443。2026-11-03 审阅。",
       "remote-domains": [
         "doi.org",
         "crossref.org",
@@ -541,7 +551,8 @@
         "pmc.ncbi.nlm.nih.gov",
         "www.researchgate.net",
         "research.manchester.ac.uk",
-        "ccs.yale.edu"
+        "ccs.yale.edu",
+        "britsoc.co.uk"
       ],
       "protocol": "tcp",
       "ports": "443"
@@ -552,7 +563,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "学术出版商：期刊与图书出版平台。域名及子域 TCP 443。2026-11-01 审阅。",
+      "notes": "学术出版商：期刊与图书出版平台。域名及子域 TCP 443。2026-11-03 审阅。",
       "remote-domains": [
         "jstor.org",
         "muse.jhu.edu",
@@ -577,7 +588,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "学术出版商：期刊与图书出版平台。域名及子域 TCP 443。2026-11-01 审阅。",
+      "notes": "学术出版商：期刊与图书出版平台。域名及子域 TCP 443。2026-11-03 审阅。",
       "remote-domains": [
         "jstor.org",
         "muse.jhu.edu",
@@ -602,7 +613,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "学术出版商：期刊与图书出版平台。域名及子域 TCP 443。2026-11-01 审阅。",
+      "notes": "学术出版商：期刊与图书出版平台。域名及子域 TCP 443。2026-11-03 审阅。",
       "remote-domains": [
         "jstor.org",
         "muse.jhu.edu",
@@ -627,7 +638,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "学术出版商：期刊与图书出版平台。域名及子域 TCP 443。2026-11-01 审阅。",
+      "notes": "学术出版商：期刊与图书出版平台。域名及子域 TCP 443。2026-11-03 审阅。",
       "remote-domains": [
         "jstor.org",
         "muse.jhu.edu",
@@ -652,7 +663,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "中文学术与图书：知网、国家哲学社会科学文献中心、百度学术、豆瓣读书。域名及子域 TCP 443。2026-11-01 审阅。",
+      "notes": "中文学术与图书：知网、国家哲学社会科学文献中心、百度学术、豆瓣读书。域名及子域 TCP 443。2026-11-03 审阅。",
       "remote-domains": [
         "cnki.net",
         "ncpssd.cn",
@@ -669,7 +680,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "中文学术与图书：知网、国家哲学社会科学文献中心、百度学术、豆瓣读书。域名及子域 TCP 443。2026-11-01 审阅。",
+      "notes": "中文学术与图书：知网、国家哲学社会科学文献中心、百度学术、豆瓣读书。域名及子域 TCP 443。2026-11-03 审阅。",
       "remote-domains": [
         "cnki.net",
         "ncpssd.cn",
@@ -686,7 +697,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "中文学术与图书：知网、国家哲学社会科学文献中心、百度学术、豆瓣读书。域名及子域 TCP 443。2026-11-01 审阅。",
+      "notes": "中文学术与图书：知网、国家哲学社会科学文献中心、百度学术、豆瓣读书。域名及子域 TCP 443。2026-11-03 审阅。",
       "remote-domains": [
         "cnki.net",
         "ncpssd.cn",
@@ -703,7 +714,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "中文学术与图书：知网、国家哲学社会科学文献中心、百度学术、豆瓣读书。域名及子域 TCP 443。2026-11-01 审阅。",
+      "notes": "中文学术与图书：知网、国家哲学社会科学文献中心、百度学术、豆瓣读书。域名及子域 TCP 443。2026-11-03 审阅。",
       "remote-domains": [
         "cnki.net",
         "ncpssd.cn",
@@ -720,7 +731,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "图书与全文：影子图书馆全文下载（Anna's Archive、Sci-Hub 等）与 StoryGraph 书目。域名及子域 TCP 443。2026-11-01 审阅。",
+      "notes": "图书与全文：影子图书馆全文下载（Anna's Archive、Sci-Hub 等）与 StoryGraph 书目。域名及子域 TCP 443。2026-11-03 审阅。",
       "remote-domains": [
         "annas-archive.gd",
         "annas-archive.pk",
@@ -737,7 +748,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "图书与全文：影子图书馆全文下载（Anna's Archive、Sci-Hub 等）与 StoryGraph 书目。域名及子域 TCP 443。2026-11-01 审阅。",
+      "notes": "图书与全文：影子图书馆全文下载（Anna's Archive、Sci-Hub 等）与 StoryGraph 书目。域名及子域 TCP 443。2026-11-03 审阅。",
       "remote-domains": [
         "annas-archive.gd",
         "annas-archive.pk",
@@ -754,7 +765,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "图书与全文：影子图书馆全文下载（Anna's Archive、Sci-Hub 等）与 StoryGraph 书目。域名及子域 TCP 443。2026-11-01 审阅。",
+      "notes": "图书与全文：影子图书馆全文下载（Anna's Archive、Sci-Hub 等）与 StoryGraph 书目。域名及子域 TCP 443。2026-11-03 审阅。",
       "remote-domains": [
         "annas-archive.gd",
         "annas-archive.pk",
@@ -771,7 +782,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "图书与全文：影子图书馆全文下载（Anna's Archive、Sci-Hub 等）与 StoryGraph 书目。域名及子域 TCP 443。2026-11-01 审阅。",
+      "notes": "图书与全文：影子图书馆全文下载（Anna's Archive、Sci-Hub 等）与 StoryGraph 书目。域名及子域 TCP 443。2026-11-03 审阅。",
       "remote-domains": [
         "annas-archive.gd",
         "annas-archive.pk",
@@ -788,7 +799,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "GitHub：终端里的 gh。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-01 审阅。",
+      "notes": "GitHub：终端里的 gh。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-03 审阅。",
       "via": "path.opt/homebrew/Cellar/gh/*/bin/gh",
       "remote-hosts": [
         "github.com",
@@ -807,7 +818,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "GitHub：终端里的 gh。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-01 审阅。",
+      "notes": "GitHub：终端里的 gh。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-03 审阅。",
       "via": "path.opt/homebrew/Cellar/gh/*/bin/gh",
       "remote-hosts": [
         "github.com",
@@ -826,7 +837,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "GitHub：终端里的 Homebrew curl（brew 下载）。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-01 审阅。",
+      "notes": "GitHub：终端里的 Homebrew curl。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-03 审阅。",
       "via": "path.opt/homebrew/Cellar/curl/*/bin/curl",
       "remote-hosts": [
         "github.com",
@@ -845,7 +856,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "GitHub：终端里的 Homebrew curl（brew 下载）。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-01 审阅。",
+      "notes": "GitHub：终端里的 Homebrew curl。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-03 审阅。",
       "via": "path.opt/homebrew/Cellar/curl/*/bin/curl",
       "remote-hosts": [
         "github.com",
@@ -864,7 +875,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "包管理：终端里的 Homebrew curl（brew 下载）。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-01 审阅。",
+      "notes": "包管理：终端里的 Homebrew curl。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-03 审阅。",
       "via": "path.opt/homebrew/Cellar/curl/*/bin/curl",
       "remote-hosts": [
         "registry.npmjs.org",
@@ -881,7 +892,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "包管理：终端里的 Homebrew curl（brew 下载）。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-01 审阅。",
+      "notes": "包管理：终端里的 Homebrew curl。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-03 审阅。",
       "via": "path.opt/homebrew/Cellar/curl/*/bin/curl",
       "remote-hosts": [
         "registry.npmjs.org",
@@ -898,7 +909,69 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "包管理：终端里的 Homebrew node（npm）。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-01 审阅。",
+      "notes": "学术检索与参考：终端里的 Homebrew curl。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。域名及子域 TCP 443。2026-11-03 审阅。",
+      "via": "path.opt/homebrew/Cellar/curl/*/bin/curl",
+      "remote-domains": [
+        "doi.org",
+        "crossref.org",
+        "openalex.org",
+        "semanticscholar.org",
+        "arxiv.org",
+        "scholar.google.com",
+        "books.google.com",
+        "api.unpaywall.org",
+        "core.ac.uk",
+        "philpapers.org",
+        "plato.stanford.edu",
+        "anthroencyclopedia.com",
+        "pubmed.ncbi.nlm.nih.gov",
+        "pmc.ncbi.nlm.nih.gov",
+        "www.researchgate.net",
+        "research.manchester.ac.uk",
+        "ccs.yale.edu",
+        "britsoc.co.uk"
+      ],
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "学术检索与参考：终端里的 Homebrew curl。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。域名及子域 TCP 443。2026-11-03 审阅。",
+      "via": "path.opt/homebrew/Cellar/curl/*/bin/curl",
+      "remote-domains": [
+        "doi.org",
+        "crossref.org",
+        "openalex.org",
+        "semanticscholar.org",
+        "arxiv.org",
+        "scholar.google.com",
+        "books.google.com",
+        "api.unpaywall.org",
+        "core.ac.uk",
+        "philpapers.org",
+        "plato.stanford.edu",
+        "anthroencyclopedia.com",
+        "pubmed.ncbi.nlm.nih.gov",
+        "pmc.ncbi.nlm.nih.gov",
+        "www.researchgate.net",
+        "research.manchester.ac.uk",
+        "ccs.yale.edu",
+        "britsoc.co.uk"
+      ],
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "包管理：终端里的 Homebrew node。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-03 审阅。",
       "via": "path.opt/homebrew/Cellar/node/*/bin/node",
       "remote-hosts": [
         "registry.npmjs.org",
@@ -915,13 +988,123 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "包管理：终端里的 Homebrew node（npm）。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-01 审阅。",
+      "notes": "包管理：终端里的 Homebrew node。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-03 审阅。",
       "via": "path.opt/homebrew/Cellar/node/*/bin/node",
       "remote-hosts": [
         "registry.npmjs.org",
         "ghcr.io",
         "pkg-containers.githubusercontent.com",
         "formulae.brew.sh"
+      ],
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "GitHub：终端里的 Homebrew node。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-03 审阅。",
+      "via": "path.opt/homebrew/Cellar/node/*/bin/node",
+      "remote-hosts": [
+        "github.com",
+        "api.github.com",
+        "raw.githubusercontent.com",
+        "codeload.github.com",
+        "objects.githubusercontent.com",
+        "release-assets.githubusercontent.com"
+      ],
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "GitHub：终端里的 Homebrew node。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-03 审阅。",
+      "via": "path.opt/homebrew/Cellar/node/*/bin/node",
+      "remote-hosts": [
+        "github.com",
+        "api.github.com",
+        "raw.githubusercontent.com",
+        "codeload.github.com",
+        "objects.githubusercontent.com",
+        "release-assets.githubusercontent.com"
+      ],
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "OpenAI：终端里的 Homebrew node。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-03 审阅。",
+      "via": "path.opt/homebrew/Cellar/node/*/bin/node",
+      "remote-hosts": [
+        "chatgpt.com",
+        "auth.openai.com",
+        "api.openai.com"
+      ],
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "OpenAI：终端里的 Homebrew node。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。精确主机 TCP 443。2026-11-03 审阅。",
+      "via": "path.opt/homebrew/Cellar/node/*/bin/node",
+      "remote-hosts": [
+        "chatgpt.com",
+        "auth.openai.com",
+        "api.openai.com"
+      ],
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "文档与工具：终端里的 Homebrew node。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。域名及子域 TCP 443。2026-11-03 审阅。",
+      "via": "path.opt/homebrew/Cellar/node/*/bin/node",
+      "remote-domains": [
+        "code.claude.com",
+        "developers.openai.com",
+        "releases.openai.com",
+        "www.superlogical.com",
+        "www.onorca.dev",
+        "core.telegram.org",
+        "pi.dev"
+      ],
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "文档与工具：终端里的 Homebrew node。它只有 ad-hoc 签名，宿主规则不覆盖它，需单独放行。域名及子域 TCP 443。2026-11-03 审阅。",
+      "via": "path.opt/homebrew/Cellar/node/*/bin/node",
+      "remote-domains": [
+        "code.claude.com",
+        "developers.openai.com",
+        "releases.openai.com",
+        "www.superlogical.com",
+        "www.onorca.dev",
+        "core.telegram.org",
+        "pi.dev"
       ],
       "protocol": "tcp",
       "ports": "443"

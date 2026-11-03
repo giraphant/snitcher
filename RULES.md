@@ -27,22 +27,24 @@ Rex Server 与 Orca 是终端宿主，在其中运行的 claude、codex、gh、c
 | GitHub | 四个程序 | `github.com`、`api.github.com`、`raw.githubusercontent.com`、`codeload.github.com`、`objects.githubusercontent.com`、`release-assets.githubusercontent.com` |
 | 包管理 | 四个程序 | `registry.npmjs.org`、`ghcr.io`、`pkg-containers.githubusercontent.com`、`formulae.brew.sh` |
 | Anthropic | Claude、Rex Server、Orca | `api.anthropic.com`、`mcp-proxy.anthropic.com`、`platform.claude.com`、`claude.ai`、`downloads.claude.ai` |
-| OpenAI | Codex、Rex Server、Orca | `chatgpt.com`、`auth.openai.com` |
+| OpenAI | Codex、Rex Server、Orca | `chatgpt.com`、`auth.openai.com`、`api.openai.com` |
 | 终端工具服务 | Rex Server、Orca | `daily-cloudcode-pa.googleapis.com`、`aicode.googleapis.com`、`oauth2.googleapis.com`、`www.googleapis.com`（Antigravity CLI）；`api.linear.app`（Linear） |
 | Orca 服务 | Orca | `onorca.dev`、`login.onorca.dev`、`push.onorca.dev` |
 | Rex 内置 Tailscale 与证书 | Rex Server | `controlplane.tailscale.com`、`acme-v02.api.letsencrypt.org` |
 
 `www.googleapis.com` 是 Google 共享 API 入口，放行面较大，因 agy 需要而保留。Orca 的 `share.onorca.dev`（分享上传）、`relay.onorca.dev`、`connector.onorca.dev` 在历史中未出现，未放行。
 
-## 放行：终端里的 Homebrew 工具（via 规则，精确主机，TCP 443）
+## 放行：终端里的 Homebrew 工具（via 规则，TCP 443）
 
-这些工具只有 ad-hoc 签名，Rex Server 与 Orca 的宿主规则不覆盖它们，所以各自单独放行，程序写法与 Little Snitch 一致：`*` 代表 `Cellar/<formula>/` 后的版本目录，升级后仍匹配。只列历史中出现过的工具与类别。
+这些工具只有 ad-hoc 签名，Rex Server 与 Orca 的宿主放行规则不覆盖它们，所以各自单独放行。平台服务沿用精确主机，内容站点沿用域名及子域范围。只列已观测工作流对应的工具与类别。
 
 | 工具 | via | 类别 |
 |---|---|---|
 | gh | `path.opt/homebrew/Cellar/gh/*/bin/gh` | GitHub |
-| Homebrew curl（brew 下载） | `path.opt/homebrew/Cellar/curl/*/bin/curl` | GitHub、包管理 |
-| Homebrew node（npm） | `path.opt/homebrew/Cellar/node/*/bin/node` | 包管理 |
+| Homebrew curl | `path.opt/homebrew/Cellar/curl/*/bin/curl` | GitHub、包管理、学术检索与参考 |
+| Homebrew node | `path.opt/homebrew/Cellar/node/*/bin/node` | 包管理、GitHub、OpenAI、文档与工具 |
+
+路径写法来自本机 Little Snitch 创建的规则：`*` 代表 `Cellar/<formula>/` 后的版本目录。远程订阅是否接受并正确匹配这类 via 路径仍需本机验证；更新后先确认规则组没有报错、新 Allow 已启用，再临时停用对应本地 Allow 测试。正常命中订阅后再删除本地规则。
 
 ## 放行：内容站点（域名及子域，TCP 443）
 
@@ -51,8 +53,8 @@ Rex Server 与 Orca 是终端宿主，在其中运行的 claude、codex、gh、c
 | 类别 | 程序 | 域名 |
 |---|---|---|
 | 搜索 | 四个程序 | `kagi.com`、`duckduckgo.com`、`www.google.com`、`www.bing.com` |
-| 文档与工具 | 四个程序 | `code.claude.com`、`developers.openai.com`、`releases.openai.com`、`www.superlogical.com`、`www.onorca.dev`、`core.telegram.org` |
-| 学术检索与参考 | 四个程序 | `doi.org`、`crossref.org`、`openalex.org`、`semanticscholar.org`、`arxiv.org`、`scholar.google.com`、`books.google.com`、`api.unpaywall.org`、`core.ac.uk`、`philpapers.org`、`plato.stanford.edu`、`anthroencyclopedia.com`、`pubmed.ncbi.nlm.nih.gov`、`pmc.ncbi.nlm.nih.gov`、`www.researchgate.net`、`research.manchester.ac.uk`、`ccs.yale.edu` |
+| 文档与工具 | 四个程序 | `code.claude.com`、`developers.openai.com`、`releases.openai.com`、`www.superlogical.com`、`www.onorca.dev`、`core.telegram.org`、`pi.dev`（Pi 编程助手官网） |
+| 学术检索与参考 | 四个程序 | `doi.org`、`crossref.org`、`openalex.org`、`semanticscholar.org`、`arxiv.org`、`scholar.google.com`、`books.google.com`、`api.unpaywall.org`、`core.ac.uk`、`philpapers.org`、`plato.stanford.edu`、`anthroencyclopedia.com`、`pubmed.ncbi.nlm.nih.gov`、`pmc.ncbi.nlm.nih.gov`、`www.researchgate.net`、`research.manchester.ac.uk`、`ccs.yale.edu`、`britsoc.co.uk`（英国社会学协会） |
 | 学术出版商 | 四个程序 | `jstor.org`、`muse.jhu.edu`、`ssrn.com`、`sagepub.com`、`tandfonline.com`、`wiley.com`、`cambridge.org`、`oup.com`、`springer.com`、`sciencedirect.com`、`journals.uchicago.edu`、`dukeupress.edu`、`annualreviews.org` |
 | 中文学术与图书 | 四个程序 | `cnki.net`、`ncpssd.cn`、`xueshu.baidu.com`、`book.douban.com`、`search.douban.com` |
 | 图书与全文 | 四个程序 | `annas-archive.gd`、`annas-archive.pk`、`sci-hub.ru`、`wtgadtq.org`（影子图书馆全文下载）；`thestorygraph.com`（StoryGraph 书目） |
@@ -78,7 +80,7 @@ Rex Server 与 Orca 是终端宿主，在其中运行的 claude、codex、gh、c
 
 Rex Server 另拒绝 Tailscale 官方日志地址段 `199.165.136.0/24`、`2606:b740:1::/48`。这些规则在白名单模式下与兜底拒绝重叠；保留它们是为了停用 `default-deny` 回到 Ask 时仍然静默拒绝。
 
-`deny-derp.lsrules`，Rex 客户端、Rex Server、Claude、Codex：一条地址列表、一条主机名列表，合并官方 DERP 快照（2026-10-31）与 Tailscale 客户端内置的 bootstrap DNS 回退名单（2026-11-01 快照，24 个节点，含 `derp12c.tailscale.com`）。回退节点不在现行 DERP map 中，客户端在常规 DNS 失败时用它们解析协调服务器；2026-11-01 曾观测到 Rex Server 连续尝试其中 14 个。拒绝后，系统 DNS 正常时不受影响。
+`deny-derp.lsrules`，Rex 客户端、Rex Server、Claude、Codex：一条地址列表、一条主机名列表，合并官方 DERP map（2026-11-03 更新，保留已审阅旧节点）与 Tailscale 客户端内置的 bootstrap DNS 回退名单（2026-11-01 快照，24 个节点，含 `derp12c.tailscale.com`）。本次新增官方赫尔辛基节点 `derp28e.tailscale.com`：`46.62.141.44`、`2a01:4f9:c014:f18e::1`。与这些地址冲突的本地单 IP Allow 更具体，需要删除。回退名单包含现行 DERP map 之外的节点，客户端在常规 DNS 失败时用它们解析协调服务器；2026-11-01 曾观测到 Rex Server 连续尝试其中 14 个。拒绝后，系统 DNS 正常时不受影响。
 
 `default-deny.lsrules` 对五个程序身份拒绝所有未被更具体规则放行的出站连接。按 2026-10-30 至 10-31 的历史回放，启用后新增拒绝的只有：Telegram 地址的 HTTP 探测与 ping/traceroute、`storage.googleapis.com`（Claude `/plugin` 安装统计、agy 自动更新下载）、`lh3.googleusercontent.com`（Google 头像）及对路由器的 ping。
 
@@ -109,5 +111,8 @@ Rex Server 另拒绝 Tailscale 官方日志地址段 `199.165.136.0/24`、`2606:
 - [Rex 网络用途](https://www.superlogical.com/rex/docs/reference/privacy)
 - [Homebrew 分发与防火墙入口](https://docs.brew.sh/Homebrew-Package-Policies)
 - [Tailscale 协调及日志网段](https://tailscale.com/kb/1082/firewall-ports)
+- [Tailscale 官方 DERP map](https://controlplane.tailscale.com/derpmap/default)
 - [Tailscale 内置 DNS 回退名单](https://github.com/tailscale/tailscale/blob/main/net/dnsfallback/dns-fallback-servers.json)
+- [英国社会学协会](https://www.britsoc.co.uk/)
+- [Pi 编程助手](https://pi.dev/)
 - [Codex Statsig 连接](https://github.com/openai/codex/issues/12188)
