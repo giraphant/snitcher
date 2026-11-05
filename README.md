@@ -1,6 +1,6 @@
 # Snitcher
 
-Rex、Claude Code、Codex、Orca 的 Little Snitch 规则订阅，按白名单出口维护：核心服务与已审阅工作流允许，已确认的非必要目标拒绝，其余连接拒绝。停用 Default Deny 组即退回询问模式。
+Rex、Claude Code、Codex、Orca、Antigravity CLI（agy）的 Little Snitch 规则订阅，按白名单出口维护：核心服务与已审阅工作流允许，已确认的非必要目标拒绝，其余连接拒绝。停用 Default Deny 组即退回询问模式。
 
 本仓库只包含规则和使用说明，不包含通信日志、个人主机名、代理配置或凭据。
 
@@ -15,6 +15,8 @@ https://raw.githubusercontent.com/giraphant/snitcher/main/rules/baseline.lsrules
 ```
 
 按类别分组放行，每个程序每类一条规则：GitHub、包管理、Anthropic、OpenAI、终端工具服务、Orca 服务等平台限精确主机，搜索、文档、学术检索、学术出版商、中文学术、图书与全文等内容站点按域名，均为 TCP 443。终端里只有 ad-hoc 签名的 Homebrew 工具（gh、curl、node）另有 via 规则。Rex 客户端、Rex Server 与 Orca 对整个 `ts.net` 及其子域放行；Rex Server 另放行内置 Tailscale 直连所需的高位 UDP；Tailscale 协调按官方要求补 TCP 80 与官方协调地址段。未匹配目标 Ask。
+
+agy 可能作为 Rex Server/Orca 的 via 工具，也可能以 `identifier.EQHXZ8M8AV/cli` 独立出现，两种归属均覆盖。独立 agy 只放行已审阅的四个模型、登录与用户信息主机（TCP 443），没有继承其他程序的整套内容站点权限。
 
 完整主机、进程范围、理由和待确认类别见 [规则维护清单](RULES.md)。个人局域网和设备地址留在本地。
 
@@ -32,7 +34,7 @@ https://raw.githubusercontent.com/giraphant/snitcher/main/rules/deny-telemetry.l
 https://raw.githubusercontent.com/giraphant/snitcher/main/rules/deny-derp.lsrules
 ```
 
-只针对上述程序阻止官方 DERP 节点的全部协议和端口，包括 STUN。名单已合并 2026-11-03 的官方 DERP map（保留已审阅旧节点），包含 IPv4、IPv6 与域名，并补入 Tailscale 客户端内置的整份 bootstrap DNS 回退名单（2026-11-01 快照）；不包含自建 DERP 或 Peer Relay。可能影响新连接建立；停用这个组即可撤销其影响。
+只针对 Rex 客户端、Rex Server、Claude Code、Codex 阻止官方 DERP 节点的全部协议和端口，包括 STUN。名单已合并 2026-11-03 的官方 DERP map（保留已审阅旧节点），包含 IPv4、IPv6 与域名，并补入 Tailscale 客户端内置的整份 bootstrap DNS 回退名单（2026-11-01 快照）；不包含自建 DERP 或 Peer Relay。可能影响新连接建立；停用这个组即可撤销其影响。
 
 ### 4. 白名单模式：默认拒绝
 
@@ -40,11 +42,11 @@ https://raw.githubusercontent.com/giraphant/snitcher/main/rules/deny-derp.lsrule
 https://raw.githubusercontent.com/giraphant/snitcher/main/rules/default-deny.lsrules
 ```
 
-对上述五个程序身份拒绝所有未被更具体规则放行的出站连接。Little Snitch 在同优先级、同具体度下 Deny 优先于 Ask，所以它会盖过第 1 组的兜底询问，而第 1 组的各项放行更具体，仍然生效。停用这个组即回到询问模式。
+对上述六个程序身份（含独立 agy）拒绝所有未被更具体规则放行的出站连接。Little Snitch 在同优先级、同具体度下 Deny 优先于 Ask，所以它会盖过第 1 组的兜底询问，而第 1 组的各项放行更具体，仍然生效。停用这个组即回到询问模式。
 
 ## 启用顺序
 
-1. 先让第 1 组更新到最新版本，在规则组里确认新增 Allow 全部已启用（勾选 **Disable new allow rules** 时，新增 Allow 默认是禁用的）。
+1. 先让第 1 组更新到最新版本，在规则组里确认新增 Allow 全部已启用（勾选 **Disable new allow rules** 时，新增 Allow 默认是禁用的）。已启用第 4 组时，新增程序身份前先暂停它：本次独立 agy 的兜底拒绝会随第 4 组更新生效，应先启用 agy 的新 Allow，再恢复第 4 组。
 2. 把需要保留的本地例外（家庭局域网、个人设备）改为高优先级，否则会被第 4 组覆盖。
 3. 再添加第 4 组。Deny 规则不受 “Disable new allow rules” 限制，添加后立即生效；若此时 Allow 仍处于禁用状态，相应程序会直接断网。
 4. 出现异常时先停用第 4 组，确认原因后再补规则。
@@ -59,7 +61,7 @@ https://raw.githubusercontent.com/giraphant/snitcher/main/rules/default-deny.lsr
 
 ## 范围和边界
 
-规则通过签名身份匹配 Rex 客户端、Rex Server、Claude Code、Codex、Orca，没有 `Any Process` 全机规则。程序签名变化后需要重新核对。Rex Server 与 Orca 是终端宿主，其中运行的命令以“宿主 via 工具”归属到它们。宿主规则只覆盖有有效开发者签名的工具（claude、codex、agy、系统自带的 curl 与 git 等）；Homebrew 安装或自行编译的工具（gh、uv、Homebrew 的 curl、node、python 等）只有 ad-hoc 签名，Little Snitch 出于安全不对它们套用宿主规则，这类连接会落到询问，启用第 4 组后则被拒绝。订阅为历史中出现过的 gh、Homebrew curl、node 提供了 via 规则；其他工具（uv、Homebrew python、自行编译的程序）需要在本地为“宿主 via 工具”建规则。
+规则通过签名身份匹配 Rex 客户端、Rex Server、Claude Code、Codex、Orca、agy，没有 `Any Process` 全机规则。程序签名变化后需要重新核对。Rex Server 与 Orca 是终端宿主，其中运行的命令可能以“宿主 via 工具”归属到它们；被归为独立身份的进程需要自己的规则，不能套用终端宿主规则。宿主放行规则只覆盖有有效开发者签名的工具（claude、codex、agy、系统自带的 curl 与 git 等）；Homebrew 安装或自行编译的工具（gh、uv、Homebrew 的 curl、node、python 等）只有 ad-hoc 签名，Little Snitch 出于安全不对它们套用宿主规则，这类连接会落到询问，启用第 4 组后则被拒绝。订阅为历史中出现过的 gh、Homebrew curl、node 提供了 via 规则；其他工具（uv、Homebrew python、自行编译的程序）需要在本地为“宿主 via 工具”建规则。
 
 发布规则采用高优先级。Little Snitch 先比较优先级再比较具体度，普通优先级的本地规则无论多具体都会被这些规则覆盖。普通 Third Party Apps 全放行不应盖过这些高优先级规则。
 

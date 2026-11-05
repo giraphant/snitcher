@@ -1,6 +1,6 @@
 {
   "name": "Snitcher — Reviewed Workflows + Ask",
-  "description": "Grouped allowlist for Rex Server, Claude Code, Codex and Orca: GitHub, packages, model and account services, search, documentation, academic sources, plus via rules for ad-hoc signed Homebrew tools (gh, curl, node) in the Rex and Orca terminals. Rex and Orca ts.net access; Rex Server high-port UDP for built-in Tailscale. Unmatched destinations ASK; add the Default Deny group to turn this into an allowlist.",
+  "description": "Grouped allowlist for Rex Server, Claude Code, Codex and Orca: GitHub, packages, model and account services, search, documentation, academic sources, plus via rules for ad-hoc signed Homebrew tools (gh, curl, node) in the Rex and Orca terminals. Standalone Antigravity CLI (agy) gets only its reviewed model and login hosts. Rex and Orca ts.net access; Rex Server high-port UDP for built-in Tailscale. Unmatched destinations ASK; add the Default Deny group to turn this into an allowlist.",
   "rules": [
     {
       "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
@@ -264,6 +264,22 @@
         "oauth2.googleapis.com",
         "www.googleapis.com",
         "api.linear.app"
+      ],
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.EQHXZ8M8AV/cli",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Antigravity CLI：agy 独立进程的模型、登录与用户信息。精确主机 TCP 443。2026-11-05 审阅。",
+      "remote-hosts": [
+        "daily-cloudcode-pa.googleapis.com",
+        "aicode.googleapis.com",
+        "oauth2.googleapis.com",
+        "www.googleapis.com"
       ],
       "protocol": "tcp",
       "ports": "443"
@@ -1218,6 +1234,15 @@
     },
     {
       "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
+      "action": "ask",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "未匹配目标询问；启用 Default Deny 组后改为拒绝。",
+      "remote": "any"
+    },
+    {
+      "process": "identifier.EQHXZ8M8AV/cli",
       "action": "ask",
       "direction": "outgoing",
       "disabled": false,
