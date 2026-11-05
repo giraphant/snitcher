@@ -83,7 +83,7 @@ Rex Server 与 Orca 是终端宿主，在其中运行的 claude、codex、gh、c
 
 Rex Server 另拒绝 Tailscale 官方日志地址段 `199.165.136.0/24`、`2606:b740:1::/48`。这些规则在白名单模式下与兜底拒绝重叠；保留它们是为了停用 `default-deny` 回到 Ask 时仍然静默拒绝。
 
-`deny-derp.lsrules`，Rex 客户端、Rex Server、Claude、Codex：一条地址列表、一条主机名列表，合并官方 DERP map（2026-11-03 更新，保留已审阅旧节点）与 Tailscale 客户端内置的 bootstrap DNS 回退名单（2026-11-01 快照，24 个节点，含 `derp12c.tailscale.com`）。本次新增官方赫尔辛基节点 `derp28e.tailscale.com`：`46.62.141.44`、`2a01:4f9:c014:f18e::1`。与这些地址冲突的本地单 IP Allow 更具体，需要删除。回退名单包含现行 DERP map 之外的节点，客户端在常规 DNS 失败时用它们解析协调服务器；2026-11-01 曾观测到 Rex Server 连续尝试其中 14 个。拒绝后，系统 DNS 正常时不受影响。
+`deny-derp.lsrules`，Rex 客户端、Rex Server、Claude、Codex：一条地址列表、一条主机名列表，合并官方 DERP map（2026-11-05 更新，保留已审阅旧节点）与 Tailscale 客户端内置的 bootstrap DNS 回退名单（2026-11-01 快照，24 个节点，含 `derp12c.tailscale.com`）。2026-11-03 已补入官方赫尔辛基节点 `derp28e.tailscale.com`：`46.62.141.44`、`2a01:4f9:c014:f18e::1`。2026-11-05 补入官方孟买节点 `derp6b.tailscale.com`（`172.236.162.33`）、`derp6c.tailscale.com`（`172.236.162.40`）、`derp6d.tailscale.com`（`172.236.162.42`）及对应 IPv6。与这些地址冲突的本地单 IP Allow 更具体，需要删除。回退名单包含现行 DERP map 之外的节点，客户端在常规 DNS 失败时用它们解析协调服务器；2026-11-01 曾观测到 Rex Server 连续尝试其中 14 个。拒绝后，系统 DNS 正常时不受影响。
 
 `default-deny.lsrules` 对六个程序身份（含独立 agy）拒绝所有未被更具体规则放行的出站连接。独立 agy 的 baseline 有兜底 Ask；启用本组后，四个核心主机的 TCP 443 仍允许，其余未覆盖目标改为拒绝。更新前先启用 agy 的新增 Allow，避免先收到兜底拒绝而影响模型或登录。
 
