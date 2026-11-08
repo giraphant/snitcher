@@ -34,7 +34,7 @@ https://raw.githubusercontent.com/giraphant/snitcher/main/rules/deny-telemetry.l
 https://raw.githubusercontent.com/giraphant/snitcher/main/rules/deny-derp.lsrules
 ```
 
-只针对 Rex 客户端、Rex Server、Claude Code、Codex 阻止官方 DERP 节点的全部协议和端口，包括 STUN。名单已合并 2026-11-05 的官方 DERP map（保留已审阅旧节点），包含 IPv4、IPv6 与域名，并补入 Tailscale 客户端内置的整份 bootstrap DNS 回退名单（2026-11-01 快照）；不包含自建 DERP 或 Peer Relay。可能影响新连接建立；停用这个组即可撤销其影响。
+只针对 Rex 客户端、Rex Server、Claude Code、Codex 阻止官方 DERP 节点的全部协议和端口，包括 STUN。名单已合并 2026-11-08 的官方 DERP map（保留已审阅旧节点），包含 IPv4、IPv6 与域名，并补入 Tailscale 客户端内置的整份 bootstrap DNS 回退名单（2026-11-01 快照）；不包含自建 DERP 或 Peer Relay。可能影响新连接建立；停用这个组即可撤销其影响。
 
 ### 4. 白名单模式：默认拒绝
 
