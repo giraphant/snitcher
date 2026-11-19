@@ -16,8 +16,9 @@
 | Codex | `identifier.2DC432GLL2/codex` |
 | Orca（含 Orca Terminal Host） | `identifier.6CX3WHS9HZ/com.stablyai.orca` |
 | Antigravity CLI（agy 独立身份） | `identifier.EQHXZ8M8AV/cli` |
+| Vibe Island | `identifier.CU3QC9CXTJ/app.vibeisland.macos` |
 
-Rex Server 与 Orca 是终端宿主，在其中运行的 claude、codex、gh、curl、node、agy 等子进程可能由 Little Snitch 以“宿主 via 工具”归属到它们，也可能被归为独立身份。2026-11-04/05 的规则显示 agy 以独立身份连接；本机签名校验确认其开发者为 Google LLC，标识符为 `cli`。订阅同时覆盖 agy 的独立身份与终端宿主归属。宿主放行规则只在工具本身有有效开发者签名时才覆盖它；ad-hoc 签名或未签名的工具不适用，见“已知缺口”。下文“四个程序”仍指 Rex Server、Claude Code、Codex、Orca，独立 agy 未继承这些程序的其他站点类别。
+Rex Server 与 Orca 是终端宿主，在其中运行的 claude、codex、gh、curl、node、agy 等子进程可能由 Little Snitch 以“宿主 via 工具”归属到它们，也可能被归为独立身份。2026-11-04/05 的规则显示 agy 以独立身份连接；本机签名校验确认其开发者为 Google LLC，标识符为 `cli`。订阅同时覆盖 agy 的独立身份与终端宿主归属。Vibe Island 也会拉起 `codex app-server` 与 `agy` 探测 quota，其已签名子进程同样归属到 `Vibe Island`；它只放行已审阅的 quota 与自身授权/更新主机，不继承四个程序的内容站点权限。宿主放行规则只在工具本身有有效开发者签名时才覆盖它；ad-hoc 签名或未签名的工具不适用，见“已知缺口”。下文“四个程序”仍指 Rex Server、Claude Code、Codex、Orca，独立 agy 与 Vibe Island 未继承这些程序的其他站点类别。
 
 ## 放行：平台服务（精确主机，TCP 443）
 
@@ -31,6 +32,8 @@ Rex Server 与 Orca 是终端宿主，在其中运行的 claude、codex、gh、c
 | OpenAI | Codex、Rex Server、Orca | `chatgpt.com`、`auth.openai.com`、`api.openai.com` |
 | 终端工具服务 | Rex Server、Orca | `daily-cloudcode-pa.googleapis.com`、`aicode.googleapis.com`、`oauth2.googleapis.com`、`www.googleapis.com`（Antigravity CLI）；`api.linear.app`（Linear） |
 | Antigravity CLI | agy 独立身份 | `daily-cloudcode-pa.googleapis.com`、`aicode.googleapis.com`、`oauth2.googleapis.com`、`www.googleapis.com`（模型、登录与用户信息） |
+| Vibe Island Quota | Vibe Island | `api.anthropic.com`（Claude OAuth quota）；`chatgpt.com`、`auth.openai.com`、`api.openai.com`（`codex app-server`）；`daily-cloudcode-pa.googleapis.com`、`aicode.googleapis.com`、`oauth2.googleapis.com`、`www.googleapis.com`（`agy`） |
+| Vibe Island 服务 | Vibe Island | `api.vibeisland.app`（License 校验）、`updates.vibeisland.app`（Sparkle 更新）、`dl.vibeisland.app`（更新日志与策略） |
 | Orca 服务 | Orca | `onorca.dev`、`login.onorca.dev`、`push.onorca.dev` |
 | Rex 内置 Tailscale 与证书 | Rex Server | `controlplane.tailscale.com`、`acme-v02.api.letsencrypt.org` |
 
@@ -56,7 +59,7 @@ Rex Server 与 Orca 是终端宿主，在其中运行的 claude、codex、gh、c
 |---|---|---|
 | 搜索 | 四个程序 | `kagi.com`、`duckduckgo.com`、`www.google.com`、`www.bing.com` |
 | 文档与工具 | 四个程序 | `code.claude.com`、`developers.openai.com`、`releases.openai.com`、`www.superlogical.com`、`www.onorca.dev`、`core.telegram.org`、`pi.dev`（Pi 编程助手官网） |
-| 学术检索与参考 | 四个程序 | `doi.org`、`crossref.org`、`openalex.org`、`semanticscholar.org`、`arxiv.org`、`scholar.google.com`、`books.google.com`、`api.unpaywall.org`、`core.ac.uk`、`philpapers.org`、`plato.stanford.edu`、`anthroencyclopedia.com`、`pubmed.ncbi.nlm.nih.gov`、`pmc.ncbi.nlm.nih.gov`、`www.researchgate.net`、`research.manchester.ac.uk`、`ccs.yale.edu`、`britsoc.co.uk`（英国社会学协会） |
+| 学术检索与参考 | 四个程序 | `doi.org`、`crossref.org`、`openalex.org`、`semanticscholar.org`、`arxiv.org`、`scholar.google.com`、`books.google.com`、`api.unpaywall.org`、`core.ac.uk`、`philpapers.org`、`plato.stanford.edu`、`anthroencyclopedia.com`、`pubmed.ncbi.nlm.nih.gov`、`pmc.ncbi.nlm.nih.gov`、`www.researchgate.net`、`research.manchester.ac.uk`、`ccs.yale.edu`、`americanstudies.yale.edu`（耶鲁美国研究）、`britsoc.co.uk`（英国社会学协会） |
 | 学术出版商 | 四个程序 | `jstor.org`、`muse.jhu.edu`、`ssrn.com`、`sagepub.com`、`tandfonline.com`、`wiley.com`、`cambridge.org`、`oup.com`、`springer.com`、`sciencedirect.com`、`journals.uchicago.edu`、`dukeupress.edu`、`annualreviews.org` |
 | 中文学术与图书 | 四个程序 | `cnki.net`、`ncpssd.cn`、`xueshu.baidu.com`、`book.douban.com`、`search.douban.com` |
 | 图书与全文 | 四个程序 | `annas-archive.gd`、`annas-archive.pk`、`sci-hub.ru`、`wtgadtq.org`（影子图书馆全文下载）；`thestorygraph.com`（StoryGraph 书目） |
@@ -71,21 +74,22 @@ Rex Server 与 Orca 是终端宿主，在其中运行的 claude、codex、gh、c
 
 ## 自动拒绝
 
-`deny-telemetry.lsrules`：遥测与一次性探测条目覆盖四个程序；agy 独立身份另有其自身遥测和非必要连接规则，范围如下。
+`deny-telemetry.lsrules`：遥测与一次性探测条目覆盖四个程序；agy 独立身份与 Vibe Island 另有其自身遥测和非必要连接规则，范围如下。
 
 | 类别 | 目标 |
 |---|---|
 | 遥测与特性开关 | `http-intake.logs.us5.datadoghq.com`、`browser-intake-us5-datadoghq.com`（Claude）、`analytics.brew.sh`（Homebrew）、`ab.chatgpt.com`（Codex Statsig）、`play.googleapis.com`、`antigravity-unleash.goog`（agy）、`log.tailscale.com`、`ipinfo.io` |
 | 一次性 ICMP 测速 | `sgp-ping.vultr.com`、`lon-gb-ping.vultr.com`、`speedtest.singapore.linode.com`、`speedtest.london.linode.com` |
 | agy 独立身份的遥测 | `play.googleapis.com`（Clearcut 使用统计）、`antigravity-unleash.goog`（特性开关） |
-| agy 非必要连接（Rex Server、Orca、agy 独立身份） | `lh3.googleusercontent.com`（账号头像）、`www.gstatic.com`（曾观测到插件市场目录请求失败后使用缓存；规则拒绝整个主机）、`antigravity-cli-auto-updater-974169037036.us-central1.run.app`（自动更新检查） |
+| agy 非必要连接（Rex Server、Orca、agy 独立身份、Vibe Island） | `lh3.googleusercontent.com`（账号头像）、`www.gstatic.com`（曾观测到插件市场目录请求失败后使用缓存；规则拒绝整个主机）、`antigravity-cli-auto-updater-974169037036.us-central1.run.app`（自动更新检查） |
+| Vibe Island 遥测与子进程统计 | `us.i.posthog.com`（PostHog 埋点）、`feed.vibeisland.app`（远程遥测配置与社区重置公告）、`sentry.io`（崩溃上报）、`report.vibeisland.app`（诊断上报）、`ab.chatgpt.com`（Codex Statsig）、`play.googleapis.com`、`antigravity-unleash.goog`（agy） |
 | 一次性 HTTP 探测（仅 TCP 80） | `dynamodb.ap-southeast-1.amazonaws.com`、`dynamodb.ap-northeast-1.amazonaws.com` |
 
 Rex Server 另拒绝 Tailscale 官方日志地址段 `199.165.136.0/24`、`2606:b740:1::/48`。这些规则在白名单模式下与兜底拒绝重叠；保留它们是为了停用 `default-deny` 回到 Ask 时仍然静默拒绝。
 
 `deny-derp.lsrules`，Rex 客户端、Rex Server、Claude、Codex：一条地址列表、一条主机名列表，合并官方 DERP map（2026-11-08 更新，保留已审阅旧节点）与 Tailscale 客户端内置的 bootstrap DNS 回退名单（2026-11-01 快照，24 个节点，含 `derp12c.tailscale.com`）。2026-11-03 已补入官方赫尔辛基节点 `derp28e.tailscale.com`：`46.62.141.44`、`2a01:4f9:c014:f18e::1`。2026-11-05 补入官方孟买节点 `derp6b.tailscale.com`（`172.236.162.33`）、`derp6c.tailscale.com`（`172.236.162.40`）、`derp6d.tailscale.com`（`172.236.162.42`）及对应 IPv6。2026-11-08 补入纽约 `derp1j.tailscale.com`（`209.177.145.118`）、`derp1k.tailscale.com`（`199.38.181.71`），以及法兰克福 `derp4k.tailscale.com`（`185.178.202.33`）、`derp4l.tailscale.com`（`185.178.202.101`）及对应 IPv6。与这些地址冲突的本地单 IP Allow 更具体，需要删除。回退名单包含现行 DERP map 之外的节点，客户端在常规 DNS 失败时用它们解析协调服务器；2026-11-01 曾观测到 Rex Server 连续尝试其中 14 个。拒绝后，系统 DNS 正常时不受影响。
 
-`default-deny.lsrules` 对六个程序身份（含独立 agy）拒绝所有未被更具体规则放行的出站连接。独立 agy 的 baseline 有兜底 Ask；启用本组后，四个核心主机的 TCP 443 仍允许，其余未覆盖目标改为拒绝。更新前先启用 agy 的新增 Allow，避免先收到兜底拒绝而影响模型或登录。
+`default-deny.lsrules` 对七个程序身份（含独立 agy 与 Vibe Island）拒绝所有未被更具体规则放行的出站连接。独立 agy 与 Vibe Island 的 baseline 均有兜底 Ask；启用本组后，各自的核心主机 TCP 443 仍允许，其余未覆盖目标改为拒绝。更新前先启用新增 Allow，避免先收到兜底拒绝而影响模型、登录或 quota 刷新。
 
 早期 2026-10-30 至 10-31 日志的离线回放曾列出 Telegram HTTP 探测、ping/traceroute、`storage.googleapis.com`、Google 头像和路由器 ping 等新增拒绝；该旧回放未覆盖本次独立 agy 身份。`storage.googleapis.com` 是共享下载服务，未整站放行。agy 自动更新日志与更新时间支持它用于更新下载的推断，但尚未捕获具体下载 URL。
 

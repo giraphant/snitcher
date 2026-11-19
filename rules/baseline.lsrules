@@ -1,6 +1,6 @@
 {
   "name": "Snitcher — Reviewed Workflows + Ask",
-  "description": "Grouped allowlist for Rex Server, Claude Code, Codex and Orca: GitHub, packages, model and account services, search, documentation, academic sources, plus via rules for ad-hoc signed Homebrew tools (gh, curl, node) in the Rex and Orca terminals. Standalone Antigravity CLI (agy) gets only its reviewed model and login hosts. Rex and Orca ts.net access; Rex Server high-port UDP for built-in Tailscale. Unmatched destinations ASK; add the Default Deny group to turn this into an allowlist.",
+  "description": "Grouped allowlist for Rex Server, Claude Code, Codex and Orca: GitHub, packages, model and account services, search, documentation, academic sources, plus via rules for ad-hoc signed Homebrew tools (gh, curl, node) in the Rex and Orca terminals. Standalone Antigravity CLI (agy) gets only its reviewed model and login hosts. Vibe Island gets its quota endpoints (Claude OAuth, Codex, agy) plus licensing and updates. Rex and Orca ts.net access; Rex Server high-port UDP for built-in Tailscale. Unmatched destinations ASK; add the Default Deny group to turn this into an allowlist.",
   "rules": [
     {
       "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
@@ -285,6 +285,41 @@
       "ports": "443"
     },
     {
+      "process": "identifier.CU3QC9CXTJ/app.vibeisland.macos",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Vibe Island Quota：Claude OAuth quota（api.anthropic.com），以及子进程 codex app-server 与 agy 获取 quota 所需的精确主机。TCP 443。2026-11-19 审阅。",
+      "remote-hosts": [
+        "api.anthropic.com",
+        "chatgpt.com",
+        "auth.openai.com",
+        "api.openai.com",
+        "daily-cloudcode-pa.googleapis.com",
+        "aicode.googleapis.com",
+        "oauth2.googleapis.com",
+        "www.googleapis.com"
+      ],
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
+      "process": "identifier.CU3QC9CXTJ/app.vibeisland.macos",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Vibe Island 服务：License 校验、Sparkle 自动更新与更新日志。精确主机 TCP 443。2026-11-19 审阅。",
+      "remote-hosts": [
+        "api.vibeisland.app",
+        "updates.vibeisland.app",
+        "dl.vibeisland.app"
+      ],
+      "protocol": "tcp",
+      "ports": "443"
+    },
+    {
       "process": "identifier.6CX3WHS9HZ/com.stablyai.orca",
       "action": "allow",
       "direction": "outgoing",
@@ -478,6 +513,7 @@
         "www.researchgate.net",
         "research.manchester.ac.uk",
         "ccs.yale.edu",
+        "americanstudies.yale.edu",
         "britsoc.co.uk"
       ],
       "protocol": "tcp",
@@ -508,6 +544,7 @@
         "www.researchgate.net",
         "research.manchester.ac.uk",
         "ccs.yale.edu",
+        "americanstudies.yale.edu",
         "britsoc.co.uk"
       ],
       "protocol": "tcp",
@@ -538,6 +575,7 @@
         "www.researchgate.net",
         "research.manchester.ac.uk",
         "ccs.yale.edu",
+        "americanstudies.yale.edu",
         "britsoc.co.uk"
       ],
       "protocol": "tcp",
@@ -568,6 +606,7 @@
         "www.researchgate.net",
         "research.manchester.ac.uk",
         "ccs.yale.edu",
+        "americanstudies.yale.edu",
         "britsoc.co.uk"
       ],
       "protocol": "tcp",
@@ -945,6 +984,7 @@
         "www.researchgate.net",
         "research.manchester.ac.uk",
         "ccs.yale.edu",
+        "americanstudies.yale.edu",
         "britsoc.co.uk"
       ],
       "protocol": "tcp",
@@ -976,6 +1016,7 @@
         "www.researchgate.net",
         "research.manchester.ac.uk",
         "ccs.yale.edu",
+        "americanstudies.yale.edu",
         "britsoc.co.uk"
       ],
       "protocol": "tcp",
@@ -1243,6 +1284,15 @@
     },
     {
       "process": "identifier.EQHXZ8M8AV/cli",
+      "action": "ask",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "未匹配目标询问；启用 Default Deny 组后改为拒绝。",
+      "remote": "any"
+    },
+    {
+      "process": "identifier.CU3QC9CXTJ/app.vibeisland.macos",
       "action": "ask",
       "direction": "outgoing",
       "disabled": false,

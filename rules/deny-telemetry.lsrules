@@ -1,6 +1,6 @@
 {
   "name": "Snitcher — Block Optional Telemetry and Probes",
-  "description": "Optional telemetry, feature-flag and IP lookup hosts, non-essential agy fetches (avatar, plugin catalog, update check) and observed one-off diagnostic probes for Rex, Claude Code, Codex and Orca. Standalone agy is also covered for its telemetry and non-essential fetches. Disable an individual rule or this group for deliberate diagnostics.",
+  "description": "Optional telemetry, feature-flag and IP lookup hosts, non-essential agy fetches (avatar, plugin catalog, update check) and observed one-off diagnostic probes for Rex, Claude Code, Codex and Orca. Standalone agy and Vibe Island are also covered for their telemetry and non-essential fetches. Disable an individual rule or this group for deliberate diagnostics.",
   "rules": [
     {
       "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
@@ -235,6 +235,36 @@
       "disabled": false,
       "priority": "high",
       "notes": "agy 的非必要连接：账号头像、插件市场目录（曾在请求失败后回退缓存）、自动更新检查。storage.googleapis.com 不整站放行；需要更新时临时停用本条并核对更新下载目标。",
+      "remote-hosts": [
+        "lh3.googleusercontent.com",
+        "www.gstatic.com",
+        "antigravity-cli-auto-updater-974169037036.us-central1.run.app"
+      ]
+    },
+    {
+      "process": "identifier.CU3QC9CXTJ/app.vibeisland.macos",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Vibe Island 自身遥测/上报（PostHog、远程遥测配置与公告 feed、Sentry、诊断上报）以及拉起 codex/agy 子进程时的 Statsig、Clearcut 与 Unleash 遥测。",
+      "remote-hosts": [
+        "us.i.posthog.com",
+        "feed.vibeisland.app",
+        "sentry.io",
+        "report.vibeisland.app",
+        "ab.chatgpt.com",
+        "play.googleapis.com",
+        "antigravity-unleash.goog"
+      ]
+    },
+    {
+      "process": "identifier.CU3QC9CXTJ/app.vibeisland.macos",
+      "action": "deny",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Vibe Island 拉起 agy 子进程时的非必要连接：账号头像、插件市场目录、自动更新检查。",
       "remote-hosts": [
         "lh3.googleusercontent.com",
         "www.gstatic.com",
