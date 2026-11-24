@@ -69,7 +69,10 @@ Rex Server 与 Orca 是终端宿主，在其中运行的 claude、codex、gh、c
 ## 放行：网络与远程访问
 
 - Rex 客户端、Rex Server、Orca 对整个 `ts.net` 及其子域放行，任意端口。`ts.net` 也包含其他 tailnet 公开的 Funnel 地址；如需更严格，可在本地改为只放行自己的 tailnet 子域。直接连 tailnet IP（`100.x`）不匹配此规则。
-- Rex Server 放行 UDP 远端端口 1024-65535，用于内置 Tailscale 与对端设备直连、路由器端口映射和局域网发现。官方 DERP 已拒绝，直连是唯一通路。范围不含 53 和 443，DNS 与 QUIC 仍走兜底；DERP 与 STUN 节点由 `deny-derp` 的精确地址规则优先拒绝。
+- **Tailscale 打洞与本地虚拟机直连（2026-11-24 更新）**：为 Rex Server（`identifier.AG92C3PT77/com.superlogical.rex.server`）、Tailscale 系统网络扩展（`identifier.W5364U7YZB/io.tailscale.ipn.macsys.network-extension`）以及本地虚拟机进程（VMPal `identifier.3X57WP8E8V/com.tableplus.VMPal.Machine`、OrbStack `identifier.HUAQ24HBR6/dev.kdrag0n.MacVirt.vmgr`、macOS Virtualization XPC `/System/Library/Frameworks/Virtualization.framework/Versions/A/XPCServices/com.apple.Virtualization.VirtualMachine.xpc/Contents/MacOS/com.apple.Virtualization.VirtualMachine`）放行：
+  - **STUN（UDP 3478，出站）**：用于 NAT 映射探测与打洞协调；`deny-derp` 已改为仅拦截 TCP 中继，不再盖过 STUN。
+  - **本地虚拟网桥网段（`192.168.64.0/24`、`192.168.128.0/24`）的出站与入站 UDP**：覆盖 macOS `vmnet` 虚拟网桥（`bridge100`/`bridge101`），保证宿主机与虚拟机间局域网直连（Rex 客户端同步放行 STUN 与上述虚拟网桥 UDP）。
+  - **动态 peer UDP（1024-65535，出站与入站）**：用于 WireGuard/DISCO 点对点直连与路由器端口映射；范围不含 53 和 443，DNS 与 QUIC 仍走兜底。Tailscale 系统网络扩展与三个虚拟机进程只在此补充高优先级 UDP 放行，未纳入 `default-deny` 或兜底 Ask，不影响它们的其他连接。
 - Tailscale 协调另放行 `controlplane.tailscale.com` TCP 80，以及官方协调地址段 `192.200.0.0/24`、`2606:b740:49::/48` 的 TCP 80/443，覆盖只显示 IP 的记录。80 端口用于官方支持的加密协调传输。
 
 ## 自动拒绝
@@ -87,7 +90,7 @@ Rex Server 与 Orca 是终端宿主，在其中运行的 claude、codex、gh、c
 
 Rex Server 另拒绝 Tailscale 官方日志地址段 `199.165.136.0/24`、`2606:b740:1::/48`。这些规则在白名单模式下与兜底拒绝重叠；保留它们是为了停用 `default-deny` 回到 Ask 时仍然静默拒绝。
 
-`deny-derp.lsrules`，Rex 客户端、Rex Server、Claude、Codex：一条地址列表、一条主机名列表，合并官方 DERP map（2026-11-08 更新，保留已审阅旧节点）与 Tailscale 客户端内置的 bootstrap DNS 回退名单（2026-11-01 快照，24 个节点，含 `derp12c.tailscale.com`）。2026-11-03 已补入官方赫尔辛基节点 `derp28e.tailscale.com`：`46.62.141.44`、`2a01:4f9:c014:f18e::1`。2026-11-05 补入官方孟买节点 `derp6b.tailscale.com`（`172.236.162.33`）、`derp6c.tailscale.com`（`172.236.162.40`）、`derp6d.tailscale.com`（`172.236.162.42`）及对应 IPv6。2026-11-08 补入纽约 `derp1j.tailscale.com`（`209.177.145.118`）、`derp1k.tailscale.com`（`199.38.181.71`），以及法兰克福 `derp4k.tailscale.com`（`185.178.202.33`）、`derp4l.tailscale.com`（`185.178.202.101`）及对应 IPv6。与这些地址冲突的本地单 IP Allow 更具体，需要删除。回退名单包含现行 DERP map 之外的节点，客户端在常规 DNS 失败时用它们解析协调服务器；2026-11-01 曾观测到 Rex Server 连续尝试其中 14 个。拒绝后，系统 DNS 正常时不受影响。
+`deny-derp.lsrules`，Rex 客户端、Rex Server、Claude、Codex：一条地址列表、一条主机名列表，**仅限 TCP（2026-11-24 调整）**，合并官方 DERP map（2026-11-08 更新，保留已审阅旧节点）与 Tailscale 客户端内置的 bootstrap DNS 回退名单（2026-11-01 快照，24 个节点，含 `derp12c.tailscale.com`）。此前未限协议，按 Little Snitch 优先级（精确地址优于 `remote: any`），会一并拦截 DERP 节点上的 UDP 3478 STUN 探测，导致局域网/跨机无法打洞并退回远程中继；改为仅拦截 TCP 后，官方 DERP 中继（TCP 443/80）与 bootstrap DNS 回退仍被阻止，而 UDP 3478 STUN 正常放行。2026-11-03 已补入官方赫尔辛基节点 `derp28e.tailscale.com`：`46.62.141.44`、`2a01:4f9:c014:f18e::1`。2026-11-05 补入官方孟买节点 `derp6b.tailscale.com`（`172.236.162.33`）、`derp6c.tailscale.com`（`172.236.162.40`）、`derp6d.tailscale.com`（`172.236.162.42`）及对应 IPv6。2026-11-08 补入纽约 `derp1j.tailscale.com`（`209.177.145.118`）、`derp1k.tailscale.com`（`199.38.181.71`），以及法兰克福 `derp4k.tailscale.com`（`185.178.202.33`）、`derp4l.tailscale.com`（`185.178.202.101`）及对应 IPv6。与这些地址冲突的本地单 IP Allow 更具体，需要删除。回退名单包含现行 DERP map 之外的节点，客户端在常规 DNS 失败时用它们解析协调服务器；2026-11-01 曾观测到 Rex Server 连续尝试其中 14 个。拒绝后，系统 DNS 正常时不受影响。
 
 `default-deny.lsrules` 对七个程序身份（含独立 agy 与 Vibe Island）拒绝所有未被更具体规则放行的出站连接。独立 agy 与 Vibe Island 的 baseline 均有兜底 Ask；启用本组后，各自的核心主机 TCP 443 仍允许，其余未覆盖目标改为拒绝。更新前先启用新增 Allow，避免先收到兜底拒绝而影响模型、登录或 quota 刷新。
 

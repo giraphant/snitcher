@@ -1,6 +1,6 @@
 {
   "name": "Snitcher — Reviewed Workflows + Ask",
-  "description": "Grouped allowlist for Rex Server, Claude Code, Codex and Orca: GitHub, packages, model and account services, search, documentation, academic sources, plus via rules for ad-hoc signed Homebrew tools (gh, curl, node) in the Rex and Orca terminals. Standalone Antigravity CLI (agy) gets only its reviewed model and login hosts. Vibe Island gets its quota endpoints (Claude OAuth, Codex, agy) plus licensing and updates. Rex and Orca ts.net access; Rex Server high-port UDP for built-in Tailscale. Unmatched destinations ASK; add the Default Deny group to turn this into an allowlist.",
+  "description": "Grouped allowlist for Rex Server, Claude Code, Codex and Orca: GitHub, packages, model and account services, search, documentation, academic sources, plus via rules for ad-hoc signed Homebrew tools (gh, curl, node) in the Rex and Orca terminals. Standalone Antigravity CLI (agy) gets only its reviewed model and login hosts. Vibe Island gets its quota endpoints (Claude OAuth, Codex, agy) plus licensing and updates. Rex and Orca ts.net access; Rex Server, Tailscale Network Extension and local VM processes get STUN (UDP 3478), local virtual bridge UDP (192.168.64.0/24, 192.168.128.0/24) and dynamic peer UDP (1024-65535) for direct hole punching. Unmatched destinations ASK for the 7 managed identities; add the Default Deny group to turn this into an allowlist.",
   "rules": [
     {
       "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
@@ -1232,7 +1232,292 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "Rex 内置 Tailscale 与对端设备的 UDP 直连。DERP 已拒绝，直连是唯一通路；不含 53 和 443，DNS 与 QUIC 仍走兜底；DERP/STUN 由精确地址规则优先拒绝。",
+      "notes": "Rex Server 内置 Tailscale STUN（UDP 3478），用于 NAT 探测与 Tailscale 打洞直连。2026-11-24 审阅。",
+      "remote": "any",
+      "protocol": "udp",
+      "ports": "3478"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Rex Server 内置 Tailscale 本地虚拟网桥网段（vmnet bridge100/bridge101）出站 UDP，保证宿主机与虚拟机局域网直连。2026-11-24 审阅。",
+      "remote-addresses": "192.168.64.0/24, 192.168.128.0/24",
+      "protocol": "udp"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "allow",
+      "direction": "incoming",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Rex Server 内置 Tailscale 本地虚拟网桥网段（vmnet bridge100/bridge101）入站 UDP，保证宿主机与虚拟机局域网直连。2026-11-24 审阅。",
+      "remote-addresses": "192.168.64.0/24, 192.168.128.0/24",
+      "protocol": "udp"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Rex Server 内置 Tailscale 与对端设备的动态 peer 出站 UDP 直连（含 WireGuard/DISCO 与 STUN 3478）；不含 53 和 443，DNS 与 QUIC 仍走兜底。deny-derp 仅拦截 TCP 中继，不再拦截 STUN。2026-11-24 审阅。",
+      "remote": "any",
+      "protocol": "udp",
+      "ports": "1024-65535"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex.server",
+      "action": "allow",
+      "direction": "incoming",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Rex Server 内置 Tailscale 与对端设备的动态 peer 入站 UDP 直连，允许对端/虚拟机主动发起 WireGuard/DISCO 打洞包。2026-11-24 审阅。",
+      "remote": "any",
+      "protocol": "udp",
+      "ports": "1024-65535"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Rex 客户端 STUN（UDP 3478），用于 NAT 探测与 Tailscale 打洞直连。2026-11-24 审阅。",
+      "remote": "any",
+      "protocol": "udp",
+      "ports": "3478"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Rex 客户端 本地虚拟网桥网段（vmnet bridge100/bridge101）出站 UDP，保证宿主机与虚拟机局域网直连。2026-11-24 审阅。",
+      "remote-addresses": "192.168.64.0/24, 192.168.128.0/24",
+      "protocol": "udp"
+    },
+    {
+      "process": "identifier.AG92C3PT77/com.superlogical.rex",
+      "action": "allow",
+      "direction": "incoming",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Rex 客户端 本地虚拟网桥网段（vmnet bridge100/bridge101）入站 UDP，保证宿主机与虚拟机局域网直连。2026-11-24 审阅。",
+      "remote-addresses": "192.168.64.0/24, 192.168.128.0/24",
+      "protocol": "udp"
+    },
+    {
+      "process": "identifier.W5364U7YZB/io.tailscale.ipn.macsys.network-extension",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Tailscale 系统网络扩展 STUN（UDP 3478），用于 NAT 探测与 Tailscale 打洞直连。2026-11-24 审阅。",
+      "remote": "any",
+      "protocol": "udp",
+      "ports": "3478"
+    },
+    {
+      "process": "identifier.W5364U7YZB/io.tailscale.ipn.macsys.network-extension",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Tailscale 系统网络扩展 本地虚拟网桥网段（vmnet bridge100/bridge101）出站 UDP，保证宿主机与虚拟机局域网直连。2026-11-24 审阅。",
+      "remote-addresses": "192.168.64.0/24, 192.168.128.0/24",
+      "protocol": "udp"
+    },
+    {
+      "process": "identifier.W5364U7YZB/io.tailscale.ipn.macsys.network-extension",
+      "action": "allow",
+      "direction": "incoming",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Tailscale 系统网络扩展 本地虚拟网桥网段（vmnet bridge100/bridge101）入站 UDP，保证宿主机与虚拟机局域网直连。2026-11-24 审阅。",
+      "remote-addresses": "192.168.64.0/24, 192.168.128.0/24",
+      "protocol": "udp"
+    },
+    {
+      "process": "identifier.W5364U7YZB/io.tailscale.ipn.macsys.network-extension",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Tailscale 系统网络扩展 与对端设备的动态 peer 出站 UDP 直连（含 WireGuard/DISCO 与 STUN 3478）；不含 53 和 443，DNS 与 QUIC 仍走兜底。deny-derp 仅拦截 TCP 中继，不再拦截 STUN。2026-11-24 审阅。",
+      "remote": "any",
+      "protocol": "udp",
+      "ports": "1024-65535"
+    },
+    {
+      "process": "identifier.W5364U7YZB/io.tailscale.ipn.macsys.network-extension",
+      "action": "allow",
+      "direction": "incoming",
+      "disabled": false,
+      "priority": "high",
+      "notes": "Tailscale 系统网络扩展 与对端设备的动态 peer 入站 UDP 直连，允许对端/虚拟机主动发起 WireGuard/DISCO 打洞包。2026-11-24 审阅。",
+      "remote": "any",
+      "protocol": "udp",
+      "ports": "1024-65535"
+    },
+    {
+      "process": "identifier.3X57WP8E8V/com.tableplus.VMPal.Machine",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "VMPal 虚拟机进程（VMPalMachine） STUN（UDP 3478），用于 NAT 探测与 Tailscale 打洞直连。2026-11-24 审阅。",
+      "remote": "any",
+      "protocol": "udp",
+      "ports": "3478"
+    },
+    {
+      "process": "identifier.3X57WP8E8V/com.tableplus.VMPal.Machine",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "VMPal 虚拟机进程（VMPalMachine） 本地虚拟网桥网段（vmnet bridge100/bridge101）出站 UDP，保证宿主机与虚拟机局域网直连。2026-11-24 审阅。",
+      "remote-addresses": "192.168.64.0/24, 192.168.128.0/24",
+      "protocol": "udp"
+    },
+    {
+      "process": "identifier.3X57WP8E8V/com.tableplus.VMPal.Machine",
+      "action": "allow",
+      "direction": "incoming",
+      "disabled": false,
+      "priority": "high",
+      "notes": "VMPal 虚拟机进程（VMPalMachine） 本地虚拟网桥网段（vmnet bridge100/bridge101）入站 UDP，保证宿主机与虚拟机局域网直连。2026-11-24 审阅。",
+      "remote-addresses": "192.168.64.0/24, 192.168.128.0/24",
+      "protocol": "udp"
+    },
+    {
+      "process": "identifier.3X57WP8E8V/com.tableplus.VMPal.Machine",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "VMPal 虚拟机进程（VMPalMachine） 与对端设备的动态 peer 出站 UDP 直连（含 WireGuard/DISCO 与 STUN 3478）；不含 53 和 443，DNS 与 QUIC 仍走兜底。deny-derp 仅拦截 TCP 中继，不再拦截 STUN。2026-11-24 审阅。",
+      "remote": "any",
+      "protocol": "udp",
+      "ports": "1024-65535"
+    },
+    {
+      "process": "identifier.3X57WP8E8V/com.tableplus.VMPal.Machine",
+      "action": "allow",
+      "direction": "incoming",
+      "disabled": false,
+      "priority": "high",
+      "notes": "VMPal 虚拟机进程（VMPalMachine） 与对端设备的动态 peer 入站 UDP 直连，允许对端/虚拟机主动发起 WireGuard/DISCO 打洞包。2026-11-24 审阅。",
+      "remote": "any",
+      "protocol": "udp",
+      "ports": "1024-65535"
+    },
+    {
+      "process": "identifier.HUAQ24HBR6/dev.kdrag0n.MacVirt.vmgr",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "OrbStack 虚拟机进程（OrbStack Helper） STUN（UDP 3478），用于 NAT 探测与 Tailscale 打洞直连。2026-11-24 审阅。",
+      "remote": "any",
+      "protocol": "udp",
+      "ports": "3478"
+    },
+    {
+      "process": "identifier.HUAQ24HBR6/dev.kdrag0n.MacVirt.vmgr",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "OrbStack 虚拟机进程（OrbStack Helper） 本地虚拟网桥网段（vmnet bridge100/bridge101）出站 UDP，保证宿主机与虚拟机局域网直连。2026-11-24 审阅。",
+      "remote-addresses": "192.168.64.0/24, 192.168.128.0/24",
+      "protocol": "udp"
+    },
+    {
+      "process": "identifier.HUAQ24HBR6/dev.kdrag0n.MacVirt.vmgr",
+      "action": "allow",
+      "direction": "incoming",
+      "disabled": false,
+      "priority": "high",
+      "notes": "OrbStack 虚拟机进程（OrbStack Helper） 本地虚拟网桥网段（vmnet bridge100/bridge101）入站 UDP，保证宿主机与虚拟机局域网直连。2026-11-24 审阅。",
+      "remote-addresses": "192.168.64.0/24, 192.168.128.0/24",
+      "protocol": "udp"
+    },
+    {
+      "process": "identifier.HUAQ24HBR6/dev.kdrag0n.MacVirt.vmgr",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "OrbStack 虚拟机进程（OrbStack Helper） 与对端设备的动态 peer 出站 UDP 直连（含 WireGuard/DISCO 与 STUN 3478）；不含 53 和 443，DNS 与 QUIC 仍走兜底。deny-derp 仅拦截 TCP 中继，不再拦截 STUN。2026-11-24 审阅。",
+      "remote": "any",
+      "protocol": "udp",
+      "ports": "1024-65535"
+    },
+    {
+      "process": "identifier.HUAQ24HBR6/dev.kdrag0n.MacVirt.vmgr",
+      "action": "allow",
+      "direction": "incoming",
+      "disabled": false,
+      "priority": "high",
+      "notes": "OrbStack 虚拟机进程（OrbStack Helper） 与对端设备的动态 peer 入站 UDP 直连，允许对端/虚拟机主动发起 WireGuard/DISCO 打洞包。2026-11-24 审阅。",
+      "remote": "any",
+      "protocol": "udp",
+      "ports": "1024-65535"
+    },
+    {
+      "process": "/System/Library/Frameworks/Virtualization.framework/Versions/A/XPCServices/com.apple.Virtualization.VirtualMachine.xpc/Contents/MacOS/com.apple.Virtualization.VirtualMachine",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "macOS Virtualization.framework 虚拟机 XPC 进程 STUN（UDP 3478），用于 NAT 探测与 Tailscale 打洞直连。2026-11-24 审阅。",
+      "remote": "any",
+      "protocol": "udp",
+      "ports": "3478"
+    },
+    {
+      "process": "/System/Library/Frameworks/Virtualization.framework/Versions/A/XPCServices/com.apple.Virtualization.VirtualMachine.xpc/Contents/MacOS/com.apple.Virtualization.VirtualMachine",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "macOS Virtualization.framework 虚拟机 XPC 进程 本地虚拟网桥网段（vmnet bridge100/bridge101）出站 UDP，保证宿主机与虚拟机局域网直连。2026-11-24 审阅。",
+      "remote-addresses": "192.168.64.0/24, 192.168.128.0/24",
+      "protocol": "udp"
+    },
+    {
+      "process": "/System/Library/Frameworks/Virtualization.framework/Versions/A/XPCServices/com.apple.Virtualization.VirtualMachine.xpc/Contents/MacOS/com.apple.Virtualization.VirtualMachine",
+      "action": "allow",
+      "direction": "incoming",
+      "disabled": false,
+      "priority": "high",
+      "notes": "macOS Virtualization.framework 虚拟机 XPC 进程 本地虚拟网桥网段（vmnet bridge100/bridge101）入站 UDP，保证宿主机与虚拟机局域网直连。2026-11-24 审阅。",
+      "remote-addresses": "192.168.64.0/24, 192.168.128.0/24",
+      "protocol": "udp"
+    },
+    {
+      "process": "/System/Library/Frameworks/Virtualization.framework/Versions/A/XPCServices/com.apple.Virtualization.VirtualMachine.xpc/Contents/MacOS/com.apple.Virtualization.VirtualMachine",
+      "action": "allow",
+      "direction": "outgoing",
+      "disabled": false,
+      "priority": "high",
+      "notes": "macOS Virtualization.framework 虚拟机 XPC 进程 与对端设备的动态 peer 出站 UDP 直连（含 WireGuard/DISCO 与 STUN 3478）；不含 53 和 443，DNS 与 QUIC 仍走兜底。deny-derp 仅拦截 TCP 中继，不再拦截 STUN。2026-11-24 审阅。",
+      "remote": "any",
+      "protocol": "udp",
+      "ports": "1024-65535"
+    },
+    {
+      "process": "/System/Library/Frameworks/Virtualization.framework/Versions/A/XPCServices/com.apple.Virtualization.VirtualMachine.xpc/Contents/MacOS/com.apple.Virtualization.VirtualMachine",
+      "action": "allow",
+      "direction": "incoming",
+      "disabled": false,
+      "priority": "high",
+      "notes": "macOS Virtualization.framework 虚拟机 XPC 进程 与对端设备的动态 peer 入站 UDP 直连，允许对端/虚拟机主动发起 WireGuard/DISCO 打洞包。2026-11-24 审阅。",
       "remote": "any",
       "protocol": "udp",
       "ports": "1024-65535"

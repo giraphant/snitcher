@@ -14,7 +14,7 @@ Rex、Claude Code、Codex、Orca、Antigravity CLI（agy）与 Vibe Island 的 L
 https://raw.githubusercontent.com/giraphant/snitcher/main/rules/baseline.lsrules
 ```
 
-按类别分组放行，每个程序每类一条规则：GitHub、包管理、Anthropic、OpenAI、终端工具服务、Orca 服务等平台限精确主机，搜索、文档、学术检索、学术出版商、中文学术、图书与全文等内容站点按域名，均为 TCP 443。终端里只有 ad-hoc 签名的 Homebrew 工具（gh、curl、node）另有 via 规则。Rex 客户端、Rex Server 与 Orca 对整个 `ts.net` 及其子域放行；Rex Server 另放行内置 Tailscale 直连所需的高位 UDP；Tailscale 协调按官方要求补 TCP 80 与官方协调地址段。未匹配目标 Ask。
+按类别分组放行，每个程序每类一条规则：GitHub、包管理、Anthropic、OpenAI、终端工具服务、Orca 服务等平台限精确主机，搜索、文档、学术检索、学术出版商、中文学术、图书与全文等内容站点按域名，均为 TCP 443。终端里只有 ad-hoc 签名的 Homebrew 工具（gh、curl、node）另有 via 规则。Rex 客户端、Rex Server 与 Orca 对整个 `ts.net` 及其子域放行；Rex Server、Tailscale 系统网络扩展及本地虚拟机进程（VMPal、OrbStack、Virtualization XPC）放行 STUN（UDP 3478）、本地虚拟网桥网段（`192.168.64.0/24`、`192.168.128.0/24`）UDP 及出/入站动态 peer UDP（1024-65535）以保证直连打洞；Tailscale 协调按官方要求补 TCP 80 与官方协调地址段。未匹配目标 Ask（仅限受管的七个程序身份）。
 
 agy 可能作为 Rex Server/Orca/Vibe Island 的 via 工具，也可能以 `identifier.EQHXZ8M8AV/cli` 独立出现，均已覆盖。独立 agy 只放行已审阅的四个模型、登录与用户信息主机（TCP 443）；Vibe Island（`identifier.CU3QC9CXTJ/app.vibeisland.macos`）只放行 Claude OAuth / Codex / agy 的 quota 主机及自身授权与更新主机（TCP 443），两者均未继承其他程序的整套内容站点权限。
 
@@ -34,7 +34,7 @@ https://raw.githubusercontent.com/giraphant/snitcher/main/rules/deny-telemetry.l
 https://raw.githubusercontent.com/giraphant/snitcher/main/rules/deny-derp.lsrules
 ```
 
-只针对 Rex 客户端、Rex Server、Claude Code、Codex 阻止官方 DERP 节点的全部协议和端口，包括 STUN。名单已合并 2026-11-08 的官方 DERP map（保留已审阅旧节点），包含 IPv4、IPv6 与域名，并补入 Tailscale 客户端内置的整份 bootstrap DNS 回退名单（2026-11-01 快照）；不包含自建 DERP 或 Peer Relay。可能影响新连接建立；停用这个组即可撤销其影响。
+只针对 Rex 客户端、Rex Server、Claude Code、Codex 阻止官方 DERP 节点的 **TCP** 连接（DERP 中继与 bootstrap DNS 回退），**不再拦截 UDP 3478 STUN**，以保证 NAT 探测和局域网/点对点直连打洞。名单已合并 2026-11-08 的官方 DERP map（保留已审阅旧节点），包含 IPv4、IPv6 与域名，并补入 Tailscale 客户端内置的整份 bootstrap DNS 回退名单（2026-11-01 快照）；不包含自建 DERP 或 Peer Relay。停用这个组即可撤销其影响。
 
 ### 4. 白名单模式：默认拒绝
 
