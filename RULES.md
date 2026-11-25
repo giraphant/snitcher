@@ -88,7 +88,7 @@ Rex Server 与 Orca 是终端宿主，在其中运行的 claude、codex、gh、c
 | Vibe Island 遥测与子进程统计 | `us.i.posthog.com`（PostHog 埋点）、`feed.vibeisland.app`（远程遥测配置与社区重置公告）、`sentry.io`（崩溃上报）、`report.vibeisland.app`（诊断上报）、`ab.chatgpt.com`（Codex Statsig）、`play.googleapis.com`、`antigravity-unleash.goog`（agy） |
 | 一次性 HTTP 探测（仅 TCP 80） | `dynamodb.ap-southeast-1.amazonaws.com`、`dynamodb.ap-northeast-1.amazonaws.com` |
 
-Rex Server 另拒绝 Tailscale 官方日志地址段 `199.165.136.0/24`、`2606:b740:1::/48`。这些规则在白名单模式下与兜底拒绝重叠；保留它们是为了停用 `default-deny` 回到 Ask 时仍然静默拒绝。
+Rex Server 另拒绝 Tailscale 官方日志地址段 `199.165.136.0/24`、`2606:b740:1::/48`，以及编译写死在 Rex Server 内置 Tailscale 二进制中的 24 节点 / 48 IP bootstrap DNS 回退名单（仅 TCP；该名单不受 Tailscale 后台 `derpMap` 的 `OmitDefaultRegions: true` 控制，在 `log.tailscale.com` 被拦截时会被轮询，系统 DNS 正常时静默拒绝无影响）。这些规则在白名单模式下与兜底拒绝重叠；保留它们是为了停用 `default-deny` 回到 Ask 时仍然静默拒绝。
 
 `deny-derp.lsrules`（**2026-11-25 已退役**）：官方 Tailscale DERP 节点频繁轮换，维护静态 IP/主机名黑名单收益低且易误伤。现改为在 Tailscale 后台 ACL 的 `derpMap` 中配置 `OmitDefaultRegions: true` + 自建 DERP（自建 DERP 的服务器 IP 与非标准端口保留在本机高优先级本地规则中，不进入公开仓库）。该文件已清空为 `"rules": []` 以便既有订阅无报错更新，可在 Little Snitch 中直接移除该订阅组。
 
