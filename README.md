@@ -28,13 +28,13 @@ https://raw.githubusercontent.com/giraphant/snitcher/main/rules/deny-telemetry.l
 
 按程序范围拒绝 Tailscale 日志、Claude Datadog、Homebrew 统计、Antigravity CLI 统计及其头像、插件目录与自动更新检查、Vibe Island 遥测与诊断上报，并拒绝已审阅的一次性 IP 查询、ICMP 测速及特定 HTTP 探测。详细目标和协议见规则维护清单；需要专门排障时可停用对应规则或该组。
 
-### 3. 官方 DERP 拦截（独立可选组）
+### 3. 官方 DERP 拦截（已退役，可移除）
 
 ```text
 https://raw.githubusercontent.com/giraphant/snitcher/main/rules/deny-derp.lsrules
 ```
 
-只针对 Rex 客户端、Rex Server、Claude Code、Codex 阻止官方 DERP 节点的 **TCP** 连接（DERP 中继与 bootstrap DNS 回退），**不再拦截 UDP 3478 STUN**，以保证 NAT 探测和局域网/点对点直连打洞。名单已合并 2026-11-08 的官方 DERP map（保留已审阅旧节点），包含 IPv4、IPv6 与域名，并补入 Tailscale 客户端内置的整份 bootstrap DNS 回退名单（2026-11-01 快照）；不包含自建 DERP 或 Peer Relay。停用这个组即可撤销其影响。
+已于 2026-11-25 退役并清空规则列表：官方 DERP 节点频繁轮换，改由 Tailscale 后台 ACL（`derpMap` 的 `OmitDefaultRegions: true` + 自建 DERP）从源头停用官方中继，自建 DERP 放行留在本地高优先级规则中。文件暂时保留为空列表以防既有订阅报 404，在 Little Snitch 里直接删除该订阅组即可。
 
 ### 4. 白名单模式：默认拒绝
 

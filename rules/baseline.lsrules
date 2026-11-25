@@ -1263,7 +1263,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "Rex Server 内置 Tailscale 与对端设备的动态 peer 出站 UDP 直连（含 WireGuard/DISCO 与 STUN 3478）；不含 53 和 443，DNS 与 QUIC 仍走兜底。deny-derp 仅拦截 TCP 中继，不再拦截 STUN。2026-11-24 审阅。",
+      "notes": "Rex Server 内置 Tailscale 与对端设备的动态 peer 出站 UDP 直连（含 WireGuard/DISCO 与 STUN 3478）；不含 53 和 443，DNS 与 QUIC 仍走兜底。2026-11-24 审阅。",
       "remote": "any",
       "protocol": "udp",
       "ports": "1024-65535"
@@ -1347,7 +1347,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "Tailscale 系统网络扩展 与对端设备的动态 peer 出站 UDP 直连（含 WireGuard/DISCO 与 STUN 3478）；不含 53 和 443，DNS 与 QUIC 仍走兜底。deny-derp 仅拦截 TCP 中继，不再拦截 STUN。2026-11-24 审阅。",
+      "notes": "Tailscale 系统网络扩展 与对端设备的动态 peer 出站 UDP 直连（含 WireGuard/DISCO 与 STUN 3478）；不含 53 和 443，DNS 与 QUIC 仍走兜底。2026-11-24 审阅。",
       "remote": "any",
       "protocol": "udp",
       "ports": "1024-65535"
@@ -1400,7 +1400,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "VMPal 虚拟机进程（VMPalMachine） 与对端设备的动态 peer 出站 UDP 直连（含 WireGuard/DISCO 与 STUN 3478）；不含 53 和 443，DNS 与 QUIC 仍走兜底。deny-derp 仅拦截 TCP 中继，不再拦截 STUN。2026-11-24 审阅。",
+      "notes": "VMPal 虚拟机进程（VMPalMachine） 与对端设备的动态 peer 出站 UDP 直连（含 WireGuard/DISCO 与 STUN 3478）；不含 53 和 443，DNS 与 QUIC 仍走兜底。2026-11-24 审阅。",
       "remote": "any",
       "protocol": "udp",
       "ports": "1024-65535"
@@ -1453,7 +1453,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "OrbStack 虚拟机进程（OrbStack Helper） 与对端设备的动态 peer 出站 UDP 直连（含 WireGuard/DISCO 与 STUN 3478）；不含 53 和 443，DNS 与 QUIC 仍走兜底。deny-derp 仅拦截 TCP 中继，不再拦截 STUN。2026-11-24 审阅。",
+      "notes": "OrbStack 虚拟机进程（OrbStack Helper） 与对端设备的动态 peer 出站 UDP 直连（含 WireGuard/DISCO 与 STUN 3478）；不含 53 和 443，DNS 与 QUIC 仍走兜底。2026-11-24 审阅。",
       "remote": "any",
       "protocol": "udp",
       "ports": "1024-65535"
@@ -1506,7 +1506,7 @@
       "direction": "outgoing",
       "disabled": false,
       "priority": "high",
-      "notes": "macOS Virtualization.framework 虚拟机 XPC 进程 与对端设备的动态 peer 出站 UDP 直连（含 WireGuard/DISCO 与 STUN 3478）；不含 53 和 443，DNS 与 QUIC 仍走兜底。deny-derp 仅拦截 TCP 中继，不再拦截 STUN。2026-11-24 审阅。",
+      "notes": "macOS Virtualization.framework 虚拟机 XPC 进程 与对端设备的动态 peer 出站 UDP 直连（含 WireGuard/DISCO 与 STUN 3478）；不含 53 和 443，DNS 与 QUIC 仍走兜底。2026-11-24 审阅。",
       "remote": "any",
       "protocol": "udp",
       "ports": "1024-65535"
